@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  section(ng-controller="index")
+    h1 TIL
+
+    ul
+      li(ng-repeat="item in tils")
+        {{item.title}}
+    form(ng-submit="addTil()")
+      input(ng-model="til" name="til" placeholder="today I learned...")
+      button(type="submit") Submit
