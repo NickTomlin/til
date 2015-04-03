@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "gulp dev & bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/karma/bin/karma start karma.conf.js --single-run=true"
   },
   "repository": {
     "type": "git",
