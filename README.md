@@ -41,13 +41,15 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
     - not React
       - I <3 React though :)
   1. start simple: (branch 0)
+    - single file
     - quick feedback loop for adding a TIL item
     - basic origanization:
       - non abstracted store
       - dispatcher
       - actions
   2. reorganize (branch 1) (maybe have this later on?)
-    - break store into a base store
+    - break out into multiple files
+    - go through the loop again
   3. add complexity (branch 2)
     - add comments?
   3. add state change (branch 3)
@@ -55,6 +57,12 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
 ## notes
 - I don't want to add too much work for myself in backporting stuff because it will be unmaintainable...
 - *err* I'm not sure how to do the module thing. Should dispatcher be handled by angular? also base store...
+
+## Notes from talk with Kyle (review, merge and delete)
+- CJS is a ++ (how we do at BT)
+- Flux value is not necessarily "up front" since it takes more time to get "set up" but it is for scaling!
+- Try to provide error cases for optimistic handling
+- how to prime a store? e.g. dealing with the server etc.
 
 
 
@@ -80,6 +88,7 @@ Things that shine are uni directional <=> in that data core to the views is comi
 - sub-components with data needs
 
 
+
 # Linkz
 
 [should flux stores or actions, or both, touch external services?](http://stackoverflow.com/a/25648726/1048479)
@@ -92,6 +101,10 @@ Things that shine are uni directional <=> in that data core to the views is comi
 
 [cqrs (an idea that flux is built on/inspired by)](http://martinfowler.com/bliki/CQRS.html)
   - more detailed [overview](http://codebetter.com/gregyoung/2010/02/16/cqrs-task-based-uis-event-sourcing-agh/)
+
+## CJS and angular
+
+https://blog.codecentric.de/en/2014/08/angularjs-browserify/#integrating
 
 ## Tutorials
    - https://egghead.io/series/react-flux-architecture
