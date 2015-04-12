@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('til:base-store');
+var log = require('../lib/log')('til:base-store');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var STORE_CHANGE = require('../constants').events.STORE_CHANGE;
@@ -19,10 +19,14 @@ module.exports = function (properties) {
     _handleDispatch: function (payload) {
       var type = payload.type;
       this.handler(type, payload);
+    },
+    waitFor: function (tokens) {
+      tokens = tokens.unshift ? tokens : [tokens];
+      dispatcher.waitFor(tokens);
     }
   });
 
-  dispatcher.register(store._handleDispatch.bind(store));
+  store.dispatchToken = dispatcher.register(store._handleDispatch.bind(store));
 
   return store;
 }

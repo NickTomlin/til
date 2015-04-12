@@ -4,7 +4,5 @@ block content
   section(ng-controller="index")
     h1 TIL
 
-    ul
-      li(ng-repeat="item in tils")
-        {{item.title}}
-      input(ng-model="til" name="til" create-til placeholder="today I learned...")
+    til-list(tils="tils")
+    input(ng-model="til" name="til" create-til placeholder="today I learned...")

@@ -7,6 +7,7 @@ module.exports = {
     STORE_CHANGE: null,
     CLIENT_ACTION: null,
     SEVER_ACTION: null,
-    ADD_TIL: null
+    ADD_TIL: null,
+    ADD_USER: null
   }),
 };

@@ -1,8 +1,11 @@
 'use strict'
 
+global.test = true;
+
 require('angular');
 require('angular-mocks');
 require('til/app');
+var dispatcher = require('til/dispatcher');
 
 var chai = require('chai');
 var sinon = require('sinon');
@@ -29,8 +32,11 @@ global.helpers = {
 beforeEach(function () {
   angular.mock.module('til');
   global.sandbox = sinon.sandbox.create();
+  // prevent invariant violations for dispatcher
+  // in tests
+  global.sandbox.stub(dispatcher, 'waitFor');
 });
 
 afterEach(function () {
-  global.sandbox.reset();
+  global.sandbox.restore();
 });

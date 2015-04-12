@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     files: [
       'test/client/support/test-helper.js',
-      'test/client/**/*-test.js'
+      'test/client/**/*.test.js'
     ],
 
     reporters: ['progress'],

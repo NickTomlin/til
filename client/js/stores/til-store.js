@@ -2,18 +2,20 @@
 
 var store = require('../lib/base-store');
 var events = require('../constants').events;
-var debug = require('debug')('stores:til-store');
-var _items = [];
+var log = require('../lib/log')('stores:til-store');
 
-function addTil (title) {
-  _items.push({
-    title: title
-  });
+module.exports = function (UserStore) {
+  var _items = [];
 
-  debug('updated', _items);
-}
+  function add (til) {
+    _items.push({
+      title: til.title,
+      user: til.user
+    });
 
-module.exports = function () {
+    log('updated', _items);
+  }
+
   var tilStore = store({
     get: function () {
       return _items;
@@ -21,13 +23,13 @@ module.exports = function () {
     handler: function (type, payload) {
       switch(type) {
         case events.ADD_TIL:
-          debug('received til', payload);
-          addTil(payload.title);
+          log('add', payload);
+          this.waitFor(UserStore.dispatchToken);
+          add(payload.til);
           this.emitChange();
         break;
       }
     }
   });
-
   return tilStore;
 };

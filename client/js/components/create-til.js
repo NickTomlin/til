@@ -5,7 +5,9 @@ module.exports = function (clientActions) {
     link: function ($scope, $elem) {
       $elem.on('keydown', function (event) {
         if (event.which === 13) {
-          clientActions.addTIL($elem.val());
+          clientActions.addTIL({
+            title: $elem.val()
+          });
           $elem.val('');
         }
       });
