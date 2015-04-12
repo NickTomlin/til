@@ -7,6 +7,4 @@ block content
     ul
       li(ng-repeat="item in tils")
         {{item.title}}
-    form(ng-submit="addTil()")
-      input(ng-model="til" name="til" placeholder="today I learned...")
-      button(type="submit") Submit
+      input(ng-model="til" name="til" create-til placeholder="today I learned...")

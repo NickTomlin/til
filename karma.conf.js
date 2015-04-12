@@ -13,7 +13,7 @@ module.exports = function(config) {
     },
 
     files: [
-      'test/client/support/spec-helper.js',
+      'test/client/support/test-helper.js',
       'test/client/**/*-test.js'
     ],
 

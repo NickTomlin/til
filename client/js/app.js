@@ -5,6 +5,8 @@ global.debug = require('debug');
 global.debug.enable('*');
 var til = angular.module('til', []);
 
+til.directive('createTil', require('./components/create-til'));
+
 til.service('clientActions', require('./actions/client-actions'));
 til.service('TilStore', require('./stores/til-store'));
 
@@ -14,15 +16,12 @@ til.controller('index', function ($scope, TilStore, clientActions) {
   $scope.til = '';
   $scope.tils = TilStore.get();
 
-  // todo: move these out into a directive
   TilStore.addChangeListener(function () {
     $scope.tils = TilStore.get()
+    // since we are acting outside of the typical $scope update cycle,
+    // we let angular know to run a diff
+    $scope.$digest();
   });
-
-  $scope.addTil = function () {
-    clientActions.addTIL($scope.til);
-    $scope.til = '';
-  };
 });
 
 module.exports = til;
