@@ -2,19 +2,30 @@
 
 require('angular');
 require('debug').enable('*');
-
 var til = angular.module('til', []);
 
 til.directive('createTil', require('./components/create-til'));
 til.directive('tilList', require('./components/til-list'));
 
 til.service('clientActions', require('./actions/client-actions'));
+til.service('serverActions', require('./actions/server-actions'));
 til.service('TilStore', require('./stores/til-store'));
 til.service('UserStore', require('./stores/user-store'));
+til.service('AuthenticationStore', require('./stores/authentication-store'));
+
+// !! handwaving
+// we preload the application with a user
+// our stores must be injected to attach listeners, so we include them here
+til.run(function (TilStore, UserStore, AuthenticationStore, serverActions) {
+  serverActions.addUser({
+    id: 1,
+    displayName: 'Nick Tomlin'
+  });
+});
 
 // controller is responsible for setting up data, initializing items on scope
 // it should do any direct handling of actions
-til.controller('index', function ($scope, TilStore, clientActions) {
+til.controller('index', function ($scope, TilStore) {
   $scope.tils = TilStore.get();
 
   TilStore.addChangeListener(function () {

@@ -10,7 +10,7 @@ module.exports = function (UserStore) {
   function add (til) {
     _items.push({
       title: til.title,
-      user: til.user
+      user: UserStore.get(til.user)
     });
 
     log('updated', _items);

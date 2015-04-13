@@ -10,6 +10,6 @@ describe('User Store', function () {
 
   it('adds an user', function () {
     this.UserStore.handler(events.ADD_USER, this.addUserPayload);
-    expect(Object.keys(this.UserStore.get())).to.have.length(1);
+    expect(Object.keys(this.UserStore.all())).to.have.length(1);
   });
 });

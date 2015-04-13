@@ -13,7 +13,10 @@ module.exports = function () {
   }
 
   return store({
-    get: function () {
+    get: function (id) {
+      return _users[id] || {};
+    },
+    all: function () {
       return _users;
     },
     handler: function (type, payload) {

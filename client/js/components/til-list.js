@@ -7,7 +7,7 @@ module.exports = function () {
     },
     template: [
       '<ul>',
-        '<li ng-repeat="til in tils" till-list-item{{til}}>{{til.title}}</li>',
+        '<li ng-repeat="til in tils" till-list-item="{{til}}">{{til.title}} - {{til.user.displayName}}</li>',
       '</ul>'
     ].join('')
   }
