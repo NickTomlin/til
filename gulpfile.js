@@ -46,6 +46,11 @@ gulp.task('js', function () {
   return buildScript(MANIFEST.js.main);
 });
 
+gulp.task('css', function () {
+  return gulp.src('./node_modules/bootstrap/dist/css/{bootstrap,bootstrap-theme}.css')
+  .pipe(gulp.dest('./dist/css'));
+});
+
 gulp.task('jshint', function () {
   gulp.src(MANIFEST.js.all)
     .pipe(jshint());

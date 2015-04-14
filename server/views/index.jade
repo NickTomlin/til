@@ -3,6 +3,7 @@ extends layout
 block content
   section(ng-controller="index")
     h1 TIL
+    .row
+      input(ng-model="til" name="til" create-til placeholder="today I learned...").col-sm-6.col-md-4
+      til-list(tils="tils").col-sm-6.col-md-4
 
-    til-list(tils="tils")
-    input(ng-model="til" name="til" create-til placeholder="today I learned...")
