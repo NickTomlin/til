@@ -13,17 +13,15 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
 1. Hello
  - FED at BT
  - interested in architecture
+ - repo/slide links!
+ - there will be time to ask questions afterwards, but feel free to interject if something is pressing
 2. Flux
   a. what it is
     - Facebook yadayda
-    - Simplify data
+    - Simplify data (one way flow diagram)
     - a philosophy, not a framework
-  b. components
-    - Stores
-    - Dispatcher
-    - Actions
-    - these are all availble in the `flux` npm module
   c. open ended
+    - Facebook's interpretation of flux is available `flux` npm module (`npm i flux`)
     - none of this is set in stone. Everyone interprets things a little differently.
     - there are plenty of libraries out their `fluxor` yahoo's `flux examples` TODO that provide "off the shelf" flux patterns.
       - basic flux, tuxedojs, refluxjs, marytjs, fluxxor, fynx, mcfly, delorean, and alt.
@@ -34,10 +32,25 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
   e. A note about rendering
     - Flux is designed for applications that can easily re-render when data changes. Thankfully this means most major frameworks out there today. Backbone can also be used with a binding library or React as a view layer.
     - Angular will benefit from [track-by](http://www.codelord.net/2014/04/15/improving-ng-repeat-performance-with-track-by/)
+<!-- it almost feels like this should be included after our intial application. Otherwise there's too much of a gap and it gets too abstract -->
+  b. components
+    - Dispatcher
+      - the core of the flux model
+      - a global publisher of data
+    - Stores
+      - stores subscribe to the dispatcher
+      - stores can depend on other stores
+    - Views
+      - views subscribe to the stores, and ask the store for updated data when they have been notified it is available
+    - Actions
+      - actions are how data enters the flux "flow"
+      - they can be propogated by the client or server
+      - a simple, but powerful, way to make changes to your application
 
 3. Our example: TIL
-  0. Angular
+  0. intro: Angular
     - popular/ubiquitous
+    - solid core services (but also heavy)
     - not React
       - I <3 React though :)
   1. start simple: (branch 0)
@@ -50,9 +63,12 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
   2. reorganize (branch 1) (maybe have this later on?)
     - break out into multiple files
     - go through the loop again
-  3. add complexity (branch 2)
-    - add comments?
-  3. add state change (branch 3)
+  3. Add another store (branch 2)
+    - user store
+  4. Add the server
+  5. Let's be optimistic
+
+5. Q/A
 
 ## notes
 - I don't want to add too much work for myself in backporting stuff because it will be unmaintainable...
@@ -84,6 +100,7 @@ Things that shine are uni directional <=> in that data core to the views is comi
 # Tough Stuff
 - animation (app level states)
 - "assocations"
+  - is the "mongo" way of doing this actually sustainable?
 - preloading data
 - sub-components with data needs
 
