@@ -22,6 +22,7 @@ module.exports = function (UserStore) {
     },
     handler: function (type, payload) {
       switch(type) {
+        case events.RECEIVE_TIL:
         case events.ADD_TIL:
           log('add', payload);
           this.waitFor(UserStore.dispatchToken);

@@ -17,10 +17,22 @@ til.service('AuthenticationStore', require('./stores/authentication-store'));
 // we preload the application with a user
 // our stores must be injected to attach listeners, so we include them here
 til.run(function (TilStore, UserStore, AuthenticationStore, serverActions) {
+  if (global.test) return;
   serverActions.addUser({
     id: 1,
     displayName: 'Nick Tomlin'
   });
+
+  serverActions.addUser({
+    id: 2,
+    displayName: 'Bob Bobbins'
+  });
+
+  serverActions.receiveTil({
+    id: 1,
+    title: 'Angular and Flux can make a good pairing',
+    user: 1
+  })
 });
 
 // controller is responsible for setting up data, initializing items on scope

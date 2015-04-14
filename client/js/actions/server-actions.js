@@ -11,5 +11,12 @@ module.exports = function () {
       type: events.ADD_USER,
       user: user
     });
+  },
+  this.receiveTil = function (til) {
+    log('addTil', til);
+    dispatcher.dispatch({
+      type: events.RECEIVE_TIL,
+      til: til
+    });
   }
 };
