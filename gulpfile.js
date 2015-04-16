@@ -11,6 +11,9 @@ var MANIFEST = {
   js: {
     main: './client/js/app.js',
     all: 'client/js/**/*.js'
+  },
+  templates: {
+    all: 'client/templates/**/*.html'
   }
 };
 
@@ -39,6 +42,7 @@ function buildScript (src, watch) {
 }
 
 gulp.task('dev', function () {
+  gulp.watch([MANIFEST.templates.all], ['templates']);
   buildScript(MANIFEST.js.main, true);
 });
 
@@ -46,8 +50,13 @@ gulp.task('js', function () {
   return buildScript(MANIFEST.js.main);
 });
 
+gulp.task('templates', function () {
+  return gulp.src(MANIFEST.templates.all, {})
+    .pipe(gulp.dest('./dist/templates'));
+});
+
 gulp.task('css', function () {
-  return gulp.src('./node_modules/bootstrap/dist/css/{bootstrap,bootstrap-theme}.css')
+  return gulp.src('./node_modules/bootstrap/dist/css/{bootstrap,bootstrap-theme}.{css,map}')
   .pipe(gulp.dest('./dist/css'));
 });
 
@@ -57,4 +66,5 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('test', ['jshint']);
-gulp.task('default', ['dev']);
+gulp.task('build', ['templates', 'css', 'js']);
+gulp.task('default', ['build', 'dev']);
