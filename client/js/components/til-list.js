@@ -5,10 +5,6 @@ module.exports = function () {
     scope: {
       'tils': '=tils'
     },
-    template: [
-      '<ul>',
-        '<li ng-repeat="til in tils" till-list-item="{{til}}">{{til.title}} - {{til.user.displayName}}</li>',
-      '</ul>'
-    ].join('')
+    templateUrl: '/templates/til-list.html'
   }
 };
