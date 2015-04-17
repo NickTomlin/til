@@ -8,11 +8,7 @@ module.exports = function (UserStore) {
   var _items = [];
 
   function add (til) {
-    _items.push({
-      title: til.title,
-      user: UserStore.get(til.user)
-    });
-
+    _items.push(til);
     log('updated', _items);
   }
 
