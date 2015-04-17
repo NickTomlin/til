@@ -39,7 +39,8 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
       - a global publisher of data
     - Stores
       - stores subscribe to the dispatcher
-      - stores can depend on other stores
+      - stores depend on other stores using `waitFor`
+        > Calling for data is not the same thing as receiving data. @Jim-Y: you should only emit change once the data in the store has actually changed. Yotam: No, calling for data in the store does not break the paradigm. Data should only be received through actions, so that all the stores may be informed by any new data entering the application. So we can call for data in a store, but when the response comes back, we need to create a new action instead of handling it directly. This keeps the application flexible and resilient to new feature development. 
     - Views
       - views subscribe to the stores, and ask the store for updated data when they have been notified it is available
     - Actions
@@ -59,6 +60,11 @@ Facebook's Flux architecture is designed to make managing complex and dynamic vi
     - basic origanization:
       - non abstracted store
       - dispatcher
+          - highlight the following differences from pub/sub listed in the flux dispatcher code:
+            > 1) Callbacks are not subscribed to particular events. Every payload is
+            >    dispatched to every registered callback.
+            > 2) Callbacks can be deferred in whole or part until other callbacks have
+            >    been executed.
       - actions
   2. reorganize (branch 1) (maybe have this later on?)
     - break out into multiple files
