@@ -9,7 +9,6 @@ var dispatcher = require('til/dispatcher');
 
 var chai = require('chai');
 var sinon = require('sinon');
-global.mochaInject = require('./mocha-inject');
 chai.use(require('sinon-chai'));
 
 global.expect = chai.expect;
