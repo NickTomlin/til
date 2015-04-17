@@ -8,7 +8,8 @@
     "start": "gulp dev & bin/www",
     "test": "npm run test:client && test:server",
     "test:client": "./node_modules/karma/bin/karma start karma.conf.js --single-run=true",
-    "test:server": "mocha test/server/**/*.js --opts test/server/mocha.opts"
+    "test:server": "mocha test/server/**/*.js --opts test/server/mocha.opts",
+    "present": "http-server ./presentation"
   },
   "repository": {
     "type": "git",
@@ -40,15 +41,20 @@
     "bootstrap": "3.*",
     "chai": "^2.2.0",
     "debug": "^2.1.3",
+    "event-stream": "^3.3.0",
     "gulp-jshint": "^1.10.0",
+    "http-server": "^0.8.0",
     "karma": "^0.12.31",
     "karma-browserify": "^4.1.2",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-phantomjs-shim": "^1.0.0",
+    "marked": "^0.3.3",
     "mocha": "^2.2.1",
+    "reveal.js": "^3.0.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "trumpet": "^1.7.1"
   }
 }

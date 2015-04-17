@@ -124,6 +124,7 @@ Things that shine are uni directional <=> in that data core to the views is comi
 
 [cqrs (an idea that flux is built on/inspired by)](http://martinfowler.com/bliki/CQRS.html)
   - more detailed [overview](http://codebetter.com/gregyoung/2010/02/16/cqrs-task-based-uis-event-sourcing-agh/)
+[on the broknesss of waitFor in the todoMVC example and managing multiple stores](https://groups.google.com/forum/#!topic/reactjs/pZYYbyOHKCsc)
 
 ## CJS and angular
 
