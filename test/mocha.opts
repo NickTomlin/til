@@ -1,0 +1,2 @@
+test/shared-helper.js
+test/server/**/*.js
