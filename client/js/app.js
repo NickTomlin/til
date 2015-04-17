@@ -1,7 +1,8 @@
 'use strict';
 
 require('angular');
-require('debug').enable('*');
+global.debug = require('debug');
+global.debug.enable('*');
 var til = angular.module('til', []);
 
 til.directive('createTil', require('./components/create-til'));
