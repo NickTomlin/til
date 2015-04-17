@@ -9,7 +9,7 @@ var dispatcher = require('../dispatcher');
 module.exports = function (properties) {
   if (!properties || !properties.handler) throw new Error('stores must implement a handler');
 
-  var store = assign({}, properties, EventEmitter.prototype, {
+  var store = assign({}, EventEmitter.prototype, {
     emitChange: function () {
       this.emit(STORE_CHANGE);
     },
@@ -24,9 +24,9 @@ module.exports = function (properties) {
       tokens = tokens.unshift ? tokens : [tokens];
       dispatcher.waitFor(tokens);
     }
-  });
+  }, properties);
 
   store.dispatchToken = dispatcher.register(store._handleDispatch.bind(store));
 
   return store;
-}
+};

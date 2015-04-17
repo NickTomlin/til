@@ -10,4 +10,14 @@ describe('baseStore', function () {
   it('provides a dispatch token', function() {
     expect(this.store.dispatchToken).to.be.ok;
   });
+
+  it('allows implementors to override built in methods', function () {
+    var change = function () {};
+    var store = baseStore({
+      emitChange: change,
+      handler: sandbox.spy()
+    });
+
+    expect(store.emitChange).to.eql(change);
+  });
 });
