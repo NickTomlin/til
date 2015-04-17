@@ -52,17 +52,25 @@ til.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, server
     text: 'Deep.'
   });
 });
-// controller is responsible for setting up data, initializing items on scope
-// it should do any direct handling of actions
-til.controller('index', function ($scope, TilStore) {
-  $scope.tils = TilStore.get();
 
-  TilStore.addChangeListener(function () {
-    $scope.tils = TilStore.get()
-    // since we are acting outside of the typical $scope update cycle,
-    // we let angular know to run a diff
-    $scope.$digest();
-  });
+til.controller('index', function ($scope, $timeout, TilStore, CommentStore, UserStore) {
+  function update () {
+    $timeout(function () {
+      var tils = TilStore.get();
+      $scope.tils = tils.map(function (til) {
+        til.user = UserStore.get(til.userId);
+        til.comments = CommentStore.getForTil(til.id).map(function (comment) {
+          comment.user = UserStore.get(comment.userId);
+          return comment;
+        });
+        return til;
+      });
+    });
+  }
+
+  TilStore.addChangeListener(update);
+  CommentStore.addChangeListener(update);
+  update();
 });
 
 module.exports = til;
