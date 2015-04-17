@@ -13,6 +13,7 @@ module.exports = function(config) {
     },
 
     files: [
+      'test/shared-helper.js',
       'test/client/support/test-helper.js',
       'test/client/**/*.test.js'
     ],
