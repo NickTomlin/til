@@ -26,7 +26,7 @@
     "gulp-util": "^3.0.4",
     "jade": "^1.9.2",
     "keymirror": "~0.1.0",
-    "mongoose": "^3.9.7",
+    "mongoose": "3.8.x",
     "morgan": "^1.5.2",
     "node-uuid": "^1.4.3",
     "object-assign": "^2.0.0",
