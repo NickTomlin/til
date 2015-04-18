@@ -16,9 +16,9 @@ describe('CreateTilDirective', function () {
 
   it('calls the submitTil action when enter is pressed', function () {
     var text = 'a great til';
-    this.addTIL(text)
+    this.addTIL(text);
     expect(this.clientActions.addTIL).to.have.been.calledWithMatch({
-      title: text,
+      title: text
     });
   });
 

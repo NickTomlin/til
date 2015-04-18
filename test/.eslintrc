@@ -1,5 +1,11 @@
+plugins: ["mocha"]
 globals:
   describe: false
+  beforeEach: false
+  afterEach: false
+  inject: false
+  sandbox: false
+  helpers: false
   it: false
   request: false
   expect: false
@@ -7,3 +13,6 @@ globals:
 
 rules:
   handle-callback-err: [0]
+  # because of chai
+  no-unused-expressions: [0]
+  mocha/no-exclusive-tests: 2

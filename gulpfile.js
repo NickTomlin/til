@@ -6,8 +6,6 @@ var jshint = require('gulp-jshint');
 var util = require('gulp-util');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
-var httpServer = require('http-server');
-var HTTP_PORT = process.env.PRESENTATION_PORT || '8080';
 
 var MANIFEST = {
   js: {

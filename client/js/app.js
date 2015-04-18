@@ -3,23 +3,23 @@
 require('angular');
 global.debug = require('debug');
 global.debug.enable('*');
-var til = angular.module('til', []);
+var tilApp = angular.module('til', []);
 
-til.directive('createTil', require('./components/create-til'));
-til.directive('tilList', require('./components/til-list'));
+tilApp.directive('createTil', require('./components/create-til'));
+tilApp.directive('tilList', require('./components/til-list'));
 
-til.service('clientActions', require('./actions/client-actions'));
-til.service('serverActions', require('./actions/server-actions'));
-til.service('TilStore', require('./stores/til-store'));
-til.service('CommentStore', require('./stores/comment-store'));
-til.service('UserStore', require('./stores/user-store'));
-til.service('AuthenticationStore', require('./stores/authentication-store'));
+tilApp.service('clientActions', require('./actions/client-actions'));
+tilApp.service('serverActions', require('./actions/server-actions'));
+tilApp.service('TilStore', require('./stores/til-store'));
+tilApp.service('CommentStore', require('./stores/comment-store'));
+tilApp.service('UserStore', require('./stores/user-store'));
+tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
 // !! handwaving
 // we preload the application with a user
 // our stores must be injected to attach listeners, so we include them here
-til.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, serverActions, clientActions) {
-  if (global.test) return;
+tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, serverActions, clientActions) {
+  if (global.test) { return; }
   serverActions.addUser({
     id: 1,
     displayName: 'Nick Tomlin'
@@ -53,7 +53,7 @@ til.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, server
   });
 });
 
-til.controller('index', function ($scope, $timeout, TilStore, CommentStore, UserStore) {
+tilApp.controller('index', function ($scope, $timeout, TilStore, CommentStore, UserStore) {
   function update () {
     $timeout(function () {
       var tils = TilStore.get();
@@ -73,4 +73,4 @@ til.controller('index', function ($scope, $timeout, TilStore, CommentStore, User
   update();
 });
 
-module.exports = til;
+module.exports = tilApp;

@@ -5,5 +5,5 @@ describe('TilApp', function () {
     request.get('/')
       .expect('Content-Type', /text\/html/)
       .expect(200, done);
-  })
+  });
 });

@@ -13,7 +13,8 @@ module.exports = function () {
       type: events.ADD_TIL,
       til: til
     });
-  },
+  };
+
   this.addComment = function (comment) {
     log(events.ADD_COMMENT, comment);
     comment.id = uuid();
@@ -21,5 +22,5 @@ module.exports = function () {
       type: events.ADD_COMMENT,
       comment: comment
     });
-  }
+  };
 };

@@ -17,7 +17,7 @@ module.exports = function (UserStore) {
       return _items;
     },
     handler: function (type, payload) {
-      switch(type) {
+      switch (type) {
         case events.RECEIVE_TIL:
         case events.ADD_TIL:
           log('add', payload);
@@ -25,6 +25,8 @@ module.exports = function (UserStore) {
           add(payload.til);
           this.emitChange();
         break;
+
+        default:
       }
     }
   });

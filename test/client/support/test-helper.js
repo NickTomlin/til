@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 global.test = true;
 
@@ -26,7 +26,7 @@ global.helpers = {
       which: keyCode
     });
   }
-}
+};
 
 beforeEach(function () {
   angular.mock.module('til');

@@ -15,8 +15,8 @@ module.exports = function () {
           });
           event.target.value = '';
         }
-      }
+      };
     },
     templateUrl: '/templates/til-list.html'
-  }
+  };
 };

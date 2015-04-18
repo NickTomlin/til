@@ -20,12 +20,13 @@ module.exports = function () {
       return _users;
     },
     handler: function (type, payload) {
-      switch(type) {
+      switch (type) {
         case events.ADD_USER:
           log('Add', payload);
           add(payload.user);
           this.emitChange();
         break;
+        default:
       }
     }
   });

@@ -1,13 +1,13 @@
 'use strict';
 
-var log = require('../lib/log')('til:base-store');
+// for the future ^^ var log = require('../lib/log')('til:base-store');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var STORE_CHANGE = require('../constants').events.STORE_CHANGE;
 var dispatcher = require('../dispatcher');
 
 module.exports = function (properties) {
-  if (!properties || !properties.handler) throw new Error('stores must implement a handler');
+  if (!properties || !properties.handler) { throw new Error('stores must implement a handler'); }
 
   var store = assign({}, EventEmitter.prototype, {
     emitChange: function () {

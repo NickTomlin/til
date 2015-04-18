@@ -24,13 +24,15 @@ module.exports = function (TilStore) {
       return _comments[tilId] || [];
     },
     handler: function (type, payload) {
-      switch(type) {
+      switch (type) {
         case events.ADD_COMMENT:
           log('add', payload);
           this.waitFor(TilStore.dispatchToken);
           add(payload.comment);
           this.emitChange();
         break;
+
+        default:
       }
     }
   });

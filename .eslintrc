@@ -19,8 +19,9 @@ rules:
     no-floating-decimal: 2
     no-underscore-dangle: 0
     no-nested-ternary: 2
-    space-before-function-paren: [2, "always"]
-    space-after-function-name: [2, "always"]
+    # todo: be more consistent here :\
+    space-before-function-paren: 0
+    space-after-function-name: 0
     no-undefined: 2
     radix: 2
     space-after-keywords: [2, "always"]

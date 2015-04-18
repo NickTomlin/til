@@ -12,7 +12,8 @@ module.exports = function () {
       type: events.ADD_USER,
       user: user
     });
-  },
+  };
+
   this.receiveTil = function (til) {
     log(events.RECEIVE_TIL, til);
     til.id = uuid();
@@ -20,5 +21,5 @@ module.exports = function () {
       type: events.RECEIVE_TIL,
       til: til
     });
-  }
+  };
 };

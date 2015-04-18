@@ -6,8 +6,8 @@ module.exports = function () {
   return {
     getCurrentUser: function () {
       return {
-        id: 1,
-      }
+        id: 1
+      };
     }
-  }
-}
+  };
+};

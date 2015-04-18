@@ -21,9 +21,10 @@ var data = {
 function seed (cb) {
   Object.keys(data).forEach(function (model, dataIndex, dataKeys) {
     var Model = models[model];
-    Model.create(data[model], function (err, data) {
+    Model.create(data[model], function (err) {
+      if (err) { throw new Error(err); }
       if (dataIndex + 1 === dataKeys.length) {
-        cb(data);
+        cb();
       }
     });
   });
@@ -36,6 +37,6 @@ mongoose.connect(config.get('db'), function () {
       mongoose.disconnect(function () {
         console.log('Done seeding database.');
       });
-    })
+    });
   });
 });

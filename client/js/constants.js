@@ -11,5 +11,5 @@ module.exports = {
     ADD_COMMENT: null,
     RECEIVE_TIL: null,
     ADD_USER: null
-  }),
+  })
 };

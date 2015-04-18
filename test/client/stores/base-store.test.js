@@ -1,10 +1,10 @@
-'strict';
+'use strict';
 
 var baseStore = require('til/lib/base-store');
 
 describe('baseStore', function () {
   beforeEach(function() {
-    this.store = baseStore({handler: sandbox.spy()})
+    this.store = baseStore({handler: sandbox.spy()});
   });
 
   it('provides a dispatch token', function() {
@@ -12,7 +12,7 @@ describe('baseStore', function () {
   });
 
   it('allows implementors to override built in methods', function () {
-    var change = function () {};
+    function change () {}
     var store = baseStore({
       emitChange: change,
       handler: sandbox.spy()
