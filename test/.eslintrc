@@ -1,0 +1,9 @@
+globals:
+  describe: false
+  it: false
+  request: false
+  expect: false
+  sinon: false
+
+rules:
+  handle-callback-err: [0]
