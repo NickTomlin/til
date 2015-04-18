@@ -21,11 +21,22 @@ router.get('/:model', function (req, res, next) {
   });
 });
 
-router.post('/:model/:id', function (req, res, next) {
-  req.model.find({id: req.params.id}, function (err, model) {
-    if (err) { return next(err); }
-    res.json(model);
-  });
+router.post('/:model', function (req, res) {
+  new req.model(req.body)
+    .save(function (err, result) {
+      var resp = {};
+      if (err) {
+        res.status(400);
+        return res.json({
+          errors: err.errors
+        });
+      }
+
+      resp[req.model.modelName] = result;
+
+      res.status(201);
+      res.json(resp);
+    });
 });
 
 module.exports = router;

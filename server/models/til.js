@@ -2,6 +2,9 @@
 
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('Til', mongoose.Schema({
-  text: String
+module.exports = mongoose.model('til', mongoose.Schema({
+  text: {
+    type: String,
+    required: true
+  }
 }));

@@ -34,4 +34,6 @@ rules:
     no-path-concat: [0]
     new-cap:
       - 2
-      - capIsNewExceptions: ["Schema", "Router"]
+      -
+       capIsNewExceptions: ["Schema", "Router"]
+       newIsCapExceptions: ["model"]
