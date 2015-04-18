@@ -7,7 +7,7 @@ router.param('model', function (req, res, next) {
   var model = req.params.model;
   if (!models[model]) {
     return res
-      .status(403)
+      .status(404)
       .end();
   }
   req.model = models[model];
