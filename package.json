@@ -6,10 +6,10 @@
   "private": true,
   "scripts": {
     "start": "gulp dev & bin/www",
-    "test": "npm run test:client && test:server",
+    "test": "npm run lint && npm run test:client && npm run test:server",
     "lint": "eslint .",
     "test:client": "./node_modules/karma/bin/karma start karma.conf.js --single-run=true",
-    "test:server": "mocha test/server/**/*.js --opts test/server/mocha.opts",
+    "test:server": "mocha",
     "present": "http-server ./presentation"
   },
   "repository": {
