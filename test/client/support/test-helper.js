@@ -7,13 +7,6 @@ require('angular-mocks');
 require('til/app');
 var dispatcher = require('til/dispatcher');
 
-var chai = require('chai');
-var sinon = require('sinon');
-chai.use(require('sinon-chai'));
-
-global.expect = chai.expect;
-global.sinon = sinon;
-
 global.helpers = {
   type: function (elem, value) {
     elem.val(value).triggerHandler('input');
