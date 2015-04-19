@@ -6,8 +6,8 @@ module.exports = function (clientActions, AuthenticationStore) {
       $elem.on('keydown', function (event) {
         if (event.which === 13) {
           clientActions.addTIL({
-            title: $elem.val(),
-            user: AuthenticationStore.getCurrentUser().id
+            text: $elem.val(),
+            userId: AuthenticationStore.getCurrentUser().id
           });
           $elem.val('');
         }

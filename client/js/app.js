@@ -30,14 +30,14 @@ tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, ser
     displayName: 'Ember Bob'
   });
 
-  clientActions.addTIL({
+  serverActions.receiveTil({
     userId: 1,
-    title: 'Angular and Flux work together'
+    text: 'Angular and Flux work together'
   });
 
-  clientActions.addTIL({
+  serverActions.receiveTil({
     userId: 2,
-    title: 'It\'s all in your mind'
+    text: 'It\'s all in your mind'
   });
 
   clientActions.addComment({

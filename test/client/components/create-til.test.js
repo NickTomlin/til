@@ -18,7 +18,7 @@ describe('CreateTilDirective', function () {
     var text = 'a great til';
     this.addTIL(text);
     expect(this.clientActions.addTIL).to.have.been.calledWithMatch({
-      title: text
+      text: text
     });
   });
 
