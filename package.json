@@ -47,6 +47,7 @@
     "eslint-plugin-mocha": "^0.2.2",
     "event-stream": "^3.3.0",
     "gulp-jshint": "^1.10.0",
+    "gulp-shell": "^0.4.1",
     "http-server": "^0.8.0",
     "karma": "^0.12.31",
     "karma-browserify": "^4.1.2",
