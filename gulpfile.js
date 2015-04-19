@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var browserify = require('browserify');
-var jshint = require('gulp-jshint');
 var util = require('gulp-util');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
@@ -60,11 +59,5 @@ gulp.task('css', function () {
   .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('jshint', function () {
-  gulp.src(MANIFEST.js.all)
-    .pipe(jshint());
-});
-
-gulp.task('test', ['jshint']);
 gulp.task('build', ['templates', 'css', 'js']);
 gulp.task('default', ['build', 'dev']);
