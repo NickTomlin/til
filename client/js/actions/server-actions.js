@@ -16,10 +16,22 @@ module.exports = function () {
 
   this.receiveTil = function (til) {
     log(events.RECEIVE_TIL, til);
-    til.id = uuid();
+
+    if (!til.clientId) {
+      til.clientId = uuid();
+    }
+
     dispatcher.dispatch({
       type: events.RECEIVE_TIL,
       til: til
+    });
+  };
+
+  this.receiveTilError = function (body) {
+    dispatcher.dispatch({
+      type: events.RECEIVE_TIL_ERROR,
+      errors: body.errors,
+      clientId: body.clientId
     });
   };
 };

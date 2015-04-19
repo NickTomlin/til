@@ -32,22 +32,24 @@ tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, ser
 
   serverActions.receiveTil({
     userId: 1,
-    text: 'Angular and Flux work together'
+    text: 'Angular and Flux work together',
+    clientId: 1234
   });
 
   serverActions.receiveTil({
     userId: 2,
-    text: 'It\'s all in your mind'
+    text: 'It\'s all in your mind',
+    clientId: 5678
   });
 
   clientActions.addComment({
-    tilId: TilStore.get()[0].id,
+    tilId: TilStore.get()[0].clientId,
     userId: 2,
     text: 'But what do you think about ember?'
   });
 
   clientActions.addComment({
-    tilId: TilStore.get()[1].id,
+    tilId: TilStore.get()[1].clientId,
     userId: 1,
     text: 'Deep.'
   });

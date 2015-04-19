@@ -8,7 +8,7 @@ var events = require('../constants').events;
 module.exports = function ($http, serverActions) {
   this.addTIL = function (til) {
     log(events.ADD_TIL, til);
-    til.id = uuid();
+    til.clientId = uuid();
     dispatcher.dispatch({
       type: events.ADD_TIL,
       til: til
@@ -18,6 +18,9 @@ module.exports = function ($http, serverActions) {
     $http.post('/api/til', til)
       .then(function (res) {
         serverActions.receiveTil(res.data.til);
+      })
+      .catch(function (res) {
+        serverActions.receiveTilError(res.data);
       });
   };
 

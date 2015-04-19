@@ -1,6 +1,9 @@
 <ul>
-  <li ng-repeat="til in tils">
+  <li ng-repeat="til in tils track by til.clientId" ng-class="{'alert alert-warning': til.errors}">
     <h3>{{til.text}} - {{til.user.displayName}}</h3>
+    <div class="errors">
+      <small ng-repeat="error in til.errors">{{error.message}}</small>
+    </div>
     <h5>Comments</h5>
     <ul>
       <li ng-repeat="comment in til.comments"> <p>{{comment.text}}</p><small>- {{comment.user.displayName}}</small></li>

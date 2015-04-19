@@ -10,6 +10,7 @@ module.exports = {
     ADD_TIL: null,
     ADD_COMMENT: null,
     RECEIVE_TIL: null,
+    RECEIVE_TIL_ERROR: null,
     ADD_USER: null
   })
 };
