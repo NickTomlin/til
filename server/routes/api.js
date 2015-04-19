@@ -28,7 +28,8 @@ router.post('/:model', function (req, res) {
       if (err) {
         res.status(400);
         return res.json({
-          errors: err.errors
+          errors: err.errors,
+          clientId: req.body.clientId
         });
       }
 
