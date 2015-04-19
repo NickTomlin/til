@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var serveStatic = require('serve-static');
 
-var connecting = true;
-
 mongoose.connect(config.get('db'));
 
 app.set('views', __dirname + '/views');
