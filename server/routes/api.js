@@ -1,6 +1,7 @@
 'use strict';
 
 var router = require('express').Router();
+var logger = require('../lib/logger');
 var models = require('../models');
 
 router.param('model', function (req, res, next) {
@@ -26,6 +27,7 @@ router.post('/:model', function (req, res) {
     .save(function (err, result) {
       var resp = {};
       if (err) {
+        logger.info('TIL error %s', err);
         res.status(400);
         return res.json({
           errors: err.errors,
