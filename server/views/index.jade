@@ -2,8 +2,9 @@ extends layout
 
 block content
   section(ng-controller="index")
-    h1 TIL
     .row
-      input(ng-model="til" name="til" create-til placeholder="today I learned...").col-sm-6.col-md-4
-      til-list(tils="tils").col-sm-6.col-md-4
+      .well.col-sm-4.col-md-3
+        .input-group
+          input(ng-model="til" name="til" create-til placeholder="today I learned...").form-control
+      til-list(tils="tils").col-sm-8.col-md-5
 

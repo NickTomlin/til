@@ -2,9 +2,12 @@ doctype html
 
 html(ng-app='til')
   head
-    title= title
+    title TIL: What have you learned today?
   body
-    .container-fluid
+    .container
+      header.row
+        h1
+          kbd TIL
       block content
     link(rel="stylesheet" href="/css/bootstrap.css")
     link(rel="stylesheet" href="/css/bootstrap-theme.css")
