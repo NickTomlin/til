@@ -42,14 +42,14 @@ function buildScript (src, watch) {
   return rebundle();
 }
 
-gulp.task('dev', function () {
+gulp.task('dev', ['build'], function () {
   gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll], ['lint']);
   gulp.watch([MANIFEST.templates.all], ['templates']);
-  buildScript(MANIFEST.js.main, true);
+  buildScript(MANIFEST.js.clientMain, true);
 });
 
 gulp.task('js', function () {
-  return buildScript(MANIFEST.js.main);
+  return buildScript(MANIFEST.js.clientMain);
 });
 
 gulp.task('lint', shell.task([
