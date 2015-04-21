@@ -15,6 +15,8 @@ tilApp.service('CommentStore', require('./stores/comment-store'));
 tilApp.service('UserStore', require('./stores/user-store'));
 tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
+tilApp.controller('index', require('./pages/index'));
+
 // !! handwaving
 // we preload the application with a user
 // our stores must be injected to attach listeners, so we include them here
@@ -53,26 +55,6 @@ tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, ser
     userId: 1,
     text: 'Deep.'
   });
-});
-
-tilApp.controller('index', function ($scope, $timeout, TilStore, CommentStore, UserStore) {
-  function update () {
-    $timeout(function () {
-      var tils = TilStore.get();
-      $scope.tils = tils.map(function (til) {
-        til.user = UserStore.get(til.userId);
-        til.comments = CommentStore.getForTil(til.id).map(function (comment) {
-          comment.user = UserStore.get(comment.userId);
-          return comment;
-        });
-        return til;
-      });
-    });
-  }
-
-  TilStore.addChangeListener(update);
-  CommentStore.addChangeListener(update);
-  update();
 });
 
 module.exports = tilApp;
