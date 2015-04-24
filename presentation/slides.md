@@ -9,9 +9,9 @@
 
 - Front End @ Braintree
 - JS all the time
-- I like writing poetry
+- I try to write poetry
 
-<!-- questions afterwards-->
+<!-- there will questions afterwards-->
 
 ---
 
@@ -19,19 +19,45 @@
 
 
 
+## TLDR;
+
+- Created by Facebook <!-- .element: class="fragment" -->
+- Simplify the flow of data <!-- .element: class="fragment" -->
+- A philsophy, not a framework <!-- .element: class="fragment" -->
+
+
+
 ## The core
 
-```
-actions >>> data >>> view >>> actions
-|                                  |
-|           ONE WAY DATA           |
-|------------<<<<---<<<<-----------|
-```
+<code>
+  <pre style="text-align: center">
+  data---->>>----view--->>>----actions
+  |                                  |
+  |           ONE WAY DATA           |
+  |                                  |
+  |------------<<<----<<<------------|</pre>
+</code>
 
-- Created by Facebook
-- Simplify the flow of data
-- A philsophy, not a framework
 
+
+## Why?
+
+The front-end can get complex fast
+
+- Change can be hard to reason about <!-- .element: class="fragment" -->
+- Adding new features can mean a lot of restructuring  <!-- .element: class="fragment" -->
+- Onboarding gets harder <!-- .element: class="fragment" -->
+
+
+
+## Why: continued?
+
+Flux doesn't solve all problems. But it tries to make them _easier_ to solve.
+
+- Providing a structure for change <!-- .element: class="fragment" -->
+- Providing basic building blocks that scale <!-- .element: class="fragment" -->
+- Providing a simple philosophy <!-- .element: class="fragment" -->
+- It sounds cooler than MVC.<!-- .element: class="fragment" -->
 
 ---
 
@@ -67,6 +93,7 @@ actions >>> data >>> view >>> actions
 - from client and server
 
 
+
 ## Repeat...
 
 ---
@@ -79,10 +106,10 @@ actions >>> data >>> view >>> actions
 
 Let's use Angular.
 
-- Popular
-- Fast
-- Solid services
-- (not React ^^)
+- Popular  <!-- .element: class="fragment" -->
+- Fast <!-- .element: class="fragment" -->
+- Solid services <!-- .element: class="fragment" -->
+- (not React ^^) <!-- .element: class="fragment" -->
 
 
 
@@ -104,6 +131,10 @@ Let's use Angular.
 ## Start Simple
 
 `git checkout step-one`
+
+
+
+<video data-autoplay src="step-one.mov" class="stretch"></video>
 
 ---
 
@@ -176,10 +207,10 @@ This allows us to give immediate feedback for our users while providing us a san
 
 
 
-- Large Mental footprint initially
-- Boilerplate
-- BYO everything
-- Things are still in flux (yuk yuk)
+- Large Mental <!-- .element: class="fragment" -->
+- Boilerplate <!-- .element: class="fragment" -->
+- BYO everything <!-- .element: class="fragment" -->
+- Flux is still in, well, flux<!-- .element: class="fragment" -->
 
 ---
 
