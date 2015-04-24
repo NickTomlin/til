@@ -1,8 +1,10 @@
 'use strict';
 
+var rsvp = require('rsvp');
 var mongoose = require('mongoose');
 var config = require('../lib/config');
 var models = require('../server/models');
+var DB = config.get('db');
 
 var data = {
   til: [
@@ -29,36 +31,64 @@ var data = {
   ]
 };
 
-function done () {
-  mongoose.disconnect(function () {
-    console.log('Done seeding database.');
-  });
-}
-
-function seed (modelName, cb) {
-  console.log('Seeding for ', modelName);
-  data[modelName].reduce(function (results, modelData, dataIndex, dataKeys) {
-    models[modelName].create(modelData, function (err, result) {
-      if (err) { throw new Error(err); }
-      results.push(result);
-      if (dataIndex + 1 === dataKeys.length) {
-        cb(results);
-      }
-    });
-    return results;
-  }, []);
-}
-
-try {
-  mongoose.connect(config.get('db'), function () {
-    mongoose.connection.db.dropDatabase(function () {
-      console.log('Dropped Database. Seeding');
-      seed('til', function () {
-        seed('comment', done);
+function seedModel (modelName) {
+  console.log('Seeding data for  ', modelName);
+  return new rsvp.all(data[modelName].map(function (modelData) {
+    return new rsvp.Promise(function (resolve, reject) {
+      models[modelName].create(modelData, function (err, result) {
+        if (err) { return reject(err); }
+        resolve(result);
       });
     });
-  });
-} catch (e) {
-  console.log('Err', e);
-  done();
+  }));
 }
+
+function populateComments (tils, comments) {
+  comments.forEach(function (comment) {
+    tils[0].comments.push(comment);
+  });
+  return tils[0].save();
+}
+
+function connect (cb) {
+  if (mongoose.connection.db) { return cb(); }
+  mongoose.connect(DB, function () {
+    mongoose.connection.db.dropDatabase(function () {
+      console.log('Dropped Database. ' + DB + ' Seeding');
+      cb()
+    });
+  });
+}
+
+function seed () {
+  return new rsvp.Promise(function (resolve) {
+    connect(function () {
+      seedModel('til')
+      .then(function (tils) {
+        return seedModel('comment')
+        .then(function (comments) {
+          return populateComments(tils, comments);
+        });
+      }).finally(function () { resolve(); })
+    })
+  })
+  .catch(function (err) {
+    console.log('Error seeding', err);
+  });
+}
+
+seed.clean = function () {
+  console.log('Disconnecting from', DB);
+  return new rsvp.Promise(function (resolve) {
+    mongoose.disconnect(resolve);
+  });
+}
+
+if (require.main === module) {
+  return seed()
+    .finally(function () {
+      return seed.clean();
+    });
+}
+
+module.exports = seed;
