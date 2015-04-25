@@ -17,6 +17,6 @@ module.exports = function () {
         }
       };
     },
-    templateUrl: '/templates/til-list.html'
+    templateUrl: '/templates/components/til-list/til-list.html'
   };
 };

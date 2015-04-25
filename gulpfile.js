@@ -14,7 +14,7 @@ var MANIFEST = {
     serverAll: 'server/**/*.js'
   },
   templates: {
-    all: 'client/templates/**/*.html'
+    all: 'client/js/**/*.html'
   }
 };
 
