@@ -4,7 +4,7 @@ var store = require('../lib/base-store');
 var events = require('../constants').events;
 var log = require('../lib/log')('stores:til-store');
 
-module.exports = function (UserStore) {
+module.exports = function (UserStore, CommentStore) {
   var _items = {};
 
   function add (til) {

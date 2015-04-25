@@ -72,5 +72,40 @@ describe('api', function () {
           done();
         });
     });
+
+    it('adds comments to a til', function () {
+      models.til
+      .findOne({})
+      .populate('comments')
+      .exec(function (err, til) {
+        request
+        .post('/api/til/' + til._id + '/comment' )
+        .send({
+          text: '#mocha is great'
+        })
+        .expect(200, function (err, res) {
+          expect(res.body.comments.toString()).to.contain('#mocha is great');
+          done();
+        });
+      });
+    });
+
+    it('includes comments in til results', function (done) {
+      models.til
+      .findOne({})
+      .populate('comments')
+      .exec(function (err, til) {
+        request
+          .get('/api/til')
+          .expect(200, function (err, res) {
+            if (err) { done(err); }
+            var comments = res.body.filter(function (t) {
+              return t._id == til._id;
+            })[0].comments;
+            expect(comments.length).to.be.above(1);
+            done();
+          });
+      });
+    });
   });
 });

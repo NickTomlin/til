@@ -14,6 +14,7 @@ module.exports = mongoose.model('til', mongoose.Schema({
     required: true,
     validate: [nameValidator, 'Purposefully rejecting because of value {VALUE}.']
   },
+  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'comment'}],
   userId: {
     type: String,
     required: true
