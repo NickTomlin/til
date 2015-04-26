@@ -52,10 +52,13 @@ router.post('/:model', function (req, res) {
       if (err) {
         logger.info('TIL error %s', err);
         res.status(400);
-        return res.json({
-          errors: err.errors,
-          clientId: req.body.clientId
-        });
+        // simulate delay to showcase "optimistic" fallbacks
+        return setTimeout(function () {
+          res.json({
+            errors: err.errors,
+            clientId: req.body.clientId
+          });
+        }, 900);
       }
 
       resp[req.model.modelName] = result;
