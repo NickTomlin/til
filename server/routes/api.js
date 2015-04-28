@@ -25,24 +25,29 @@ router.get('/:model', function (req, res, next) {
     });
 });
 
-router.post('/:model', function (req, res) {
-  new req.model(req.body)
-    .save(function (err, result) {
-      var resp = {};
-      if (err) {
-        logger.info('TIL error %s', err);
-        res.status(400);
-        return res.json({
-          errors: err.errors,
-          clientId: req.body.clientId
-        });
-      }
+router.post('/til/comments', function (req, res) {
+  var comment = new models.comment({
+    text: req.body.comment.text
+  });
 
-      resp[req.model.modelName] = result;
+  models.til.findOneAndUpdate({
+    _id: req.body.tilId
+  },
+  {$push: {comments: comment}})
+  .populate('comments')
+  .exec(function (err, result) {
+    if (err) {
+      throw new Error(err);
+    }
 
-      res.status(201);
-      res.json(resp);
+    console.log('found', result);
+
+    res
+    .status(201)
+    .json({
+      til: result
     });
+  })
 });
 
 router.post('/:model', function (req, res) {
@@ -65,7 +70,7 @@ router.post('/:model', function (req, res) {
 
       res.status(201);
       res.json(resp);
-    });
+  });
 });
 
 module.exports = router;

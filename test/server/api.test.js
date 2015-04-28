@@ -73,18 +73,21 @@ describe('api', function () {
         });
     });
 
-    it('adds comments to a til', function () {
+    it('adds comments to a til', function (done) {
       models.til
       .findOne({})
       .populate('comments')
       .exec(function (err, til) {
         request
-        .post('/api/til/' + til._id + '/comment' )
+        .post('/api/til/comments' )
         .send({
-          text: '#mocha is great'
+          tilId: til._id,
+          comment: {
+            text: '#mocha is great'
+          }
         })
-        .expect(200, function (err, res) {
-          expect(res.body.comments.toString()).to.contain('#mocha is great');
+        .expect(201, function (err, res) {
+          expect(JSON.stringify(res.body.til.comments)).to.contain('#mocha is great');
           done();
         });
       });
