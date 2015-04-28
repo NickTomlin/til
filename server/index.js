@@ -2,6 +2,7 @@
 
 var config = require('../lib/config');
 var app = require('express')();
+var logger = require('./lib/logger');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -19,5 +20,11 @@ app.use(bodyParser.json());
 
 app.use('/api', require('./routes/api'));
 app.use(require('./routes'));
+
+app.use(function (err, req, res, next) {
+  console.log('Express Error', err);
+  logger.error(err);
+  next(err);
+});
 
 module.exports = app;
