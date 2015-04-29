@@ -21,7 +21,9 @@ router.get('/:model', function (req, res, next) {
     .populate('comments')
     .exec(function (err, result) {
       if (err) { return next(err); }
-      res.json(result);
+      var data = {};
+      data[req.model.modelName] = result;
+      res.json(data);
     });
 });
 
