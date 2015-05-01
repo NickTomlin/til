@@ -7,6 +7,7 @@ var shell = require('gulp-shell');
 var watchify = require('watchify');
 var mkdirp = require('mkdirp');
 var source = require('vinyl-source-stream');
+var nodemon = require('gulp-nodemon');
 var del = require('del');
 
 var MANIFEST = {
@@ -45,6 +46,11 @@ function buildScript (src, watch) {
 }
 
 gulp.task('dev', ['build'], function () {
+  nodemon({
+    script: 'bin/www',
+    ext: 'js html jade',
+    watch: 'server'
+  })
   gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll], ['lint']);
   gulp.watch([MANIFEST.templates.all], ['templates']);
   buildScript(MANIFEST.js.clientMain, true);
