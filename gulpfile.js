@@ -5,6 +5,7 @@ var browserify = require('browserify');
 var util = require('gulp-util');
 var shell = require('gulp-shell');
 var watchify = require('watchify');
+var mkdirp = require('mkdirp');
 var source = require('vinyl-source-stream');
 var del = require('del');
 
@@ -68,7 +69,11 @@ gulp.task('css', function () {
 });
 
 gulp.task('clean', function (cb) {
-  del(['dist/**/*', '!dist/css', '!dist/templates'], cb);
+  del(['dist/**/*', '!dist/css', '!dist/templates'], function () {
+    mkdirp.sync('./dist/css');
+    mkdirp.sync('./dist/templates');
+    cb();
+  });
 });
 
 gulp.task('build', ['clean', 'templates', 'css', 'js']);
