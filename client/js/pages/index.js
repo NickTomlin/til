@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ($scope, $timeout, TilStore, CommentStore, UserStore, $http, serverActions) {
+module.exports = function ($scope, $timeout, TilStore, CommentStore, UserStore, TilService) {
   function update () {
     $timeout(function () {
       var tils = TilStore.get();
@@ -19,9 +19,5 @@ module.exports = function ($scope, $timeout, TilStore, CommentStore, UserStore, 
   CommentStore.addChangeListener(update);
   update();
 
-  $http.get('/api/til').then(function (res) {
-    res.data.til.forEach(function (til) {
-      serverActions.receiveTil(til);
-    })
-  });
+  TilService.getAll();
 };
