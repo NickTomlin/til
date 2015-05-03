@@ -7,7 +7,21 @@ var log = require('../lib/log')('stores:til-store');
 module.exports = function (UserStore) {
   var _items = {};
 
+  function getUserDataForComment (comment) {
+    comment.user = UserStore.get(comment.userId);
+  }
+
+  function addComment (comment) {
+    var til = _items[comment.tilClientId];
+    getUserDataForComment(comment);
+    til.comments.push(comment);
+  }
+
   function add (til) {
+    if (!til.comments) {
+      til.comments = [];
+    }
+    til.comments.forEach(getUserDataForComment);
     _items[til.clientId] = til;
     log('updated', _items);
   }
@@ -28,6 +42,11 @@ module.exports = function (UserStore) {
         case events.RECEIVE_TIL_ERROR:
           this.waitFor(UserStore.dispatchToken);
           addErrors(payload);
+          this.emitChange();
+        break;
+
+        case events.ADD_COMMENT:
+          addComment(payload.comment);
           this.emitChange();
         break;
 

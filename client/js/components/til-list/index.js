@@ -11,7 +11,7 @@ module.exports = function () {
           clientActions.addComment({
             userId: AuthenticationStore.getCurrentUser().id,
             text: event.target.value,
-            tilId: til.clientId
+            tilClientId: til.clientId
           });
           event.target.value = '';
         }

@@ -15,7 +15,6 @@ tilApp.service('TilService', require('./services/til-service'));
 
 
 tilApp.service('TilStore', require('./stores/til-store'));
-tilApp.service('CommentStore', require('./stores/comment-store'));
 tilApp.service('UserStore', require('./stores/user-store'));
 tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
@@ -24,7 +23,7 @@ tilApp.controller('index', require('./pages/index'));
 // !! handwaving
 // we preload the application with a user
 // our stores must be injected to attach listeners, so we include them here
-tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, serverActions, clientActions) {
+tilApp.run(function (TilStore, UserStore, AuthenticationStore, serverActions, clientActions) {
   if (global.test) { return; }
   serverActions.addUser({
     id: 1,
@@ -49,13 +48,13 @@ tilApp.run(function (TilStore, UserStore, CommentStore, AuthenticationStore, ser
   });
 
   clientActions.addComment({
-    tilId: TilStore.get()[0].clientId,
+    tilClientId: TilStore.get()[0].clientId,
     userId: 2,
     text: 'But what do you think about ember?'
   });
 
   clientActions.addComment({
-    tilId: TilStore.get()[1].clientId,
+    tilClientId: TilStore.get()[1].clientId,
     userId: 1,
     text: 'Deep.'
   });
