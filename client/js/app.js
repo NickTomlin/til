@@ -7,6 +7,7 @@ var tilApp = angular.module('til', []);
 
 tilApp.directive('createTil', require('./components/create-til'));
 tilApp.directive('tilList', require('./components/til-list'));
+tilApp.directive('currentUsers', require('./components/current-users'));
 
 tilApp.service('clientActions', require('./actions/client-actions'));
 tilApp.service('serverActions', require('./actions/server-actions'));
