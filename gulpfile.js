@@ -34,7 +34,7 @@ function buildScript (src, watch) {
         util.log('Finished bundling');
       })
       .on('error', function (err) {
-        util.log('Bundle ', err.stack);
+        util.log('Bundle ', err, err.stack);
       })
       .pipe(source('app.js'))
       .pipe(gulp.dest('dist/js'));
@@ -50,7 +50,7 @@ gulp.task('dev', ['build'], function () {
     script: 'bin/www',
     ext: 'js html jade',
     watch: 'server'
-  })
+  });
   gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll], ['lint']);
   gulp.watch([MANIFEST.templates.all], ['templates']);
   buildScript(MANIFEST.js.clientMain, true);

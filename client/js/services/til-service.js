@@ -5,7 +5,7 @@ module.exports = function ($http, serverActions) {
     return $http.get('/api/til').then(function (res) {
       res.data.til.forEach(function (til) {
         serverActions.receiveTil(til);
-      })
+      });
     });
   };
 };

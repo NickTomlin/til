@@ -22,6 +22,7 @@ module.exports = function (UserStore) {
       til.comments = [];
     }
     til.comments.forEach(getUserDataForComment);
+    til.user = UserStore.get(til.userId);
     _items[til.clientId] = til;
     log('updated', _items);
   }

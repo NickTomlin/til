@@ -4,6 +4,8 @@ env:
 globals:
   global: false
   angular: false
+  before: false
+  after: false
 
 rules:
     indent: [2, 2]

@@ -28,7 +28,7 @@ router.get('/:model', function (req, res, next) {
 });
 
 router.post('/til/comments', function (req, res) {
-  var comment = new models.comment({
+  var comment = new models.comment({ //eslint-disable-line
     text: req.body.comment.text
   });
 
@@ -49,7 +49,7 @@ router.post('/til/comments', function (req, res) {
     .json({
       til: result
     });
-  })
+  });
 });
 
 router.post('/:model', function (req, res) {
@@ -72,7 +72,7 @@ router.post('/:model', function (req, res) {
 
       res.status(201);
       res.json(resp);
-  });
+    });
 });
 
 module.exports = router;

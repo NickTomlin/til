@@ -86,7 +86,7 @@ describe('api', function () {
             text: '#mocha is great'
           }
         })
-        .expect(201, function (err, res) {
+        .expect(201, function (respError, res) {
           expect(JSON.stringify(res.body.til.comments)).to.contain('#mocha is great');
           done();
         });
@@ -100,10 +100,10 @@ describe('api', function () {
       .exec(function (err, til) {
         request
           .get('/api/til')
-          .expect(200, function (err, res) {
+          .expect(200, function (respError, res) {
             if (err) { done(err); }
             var comments = res.body.filter(function (t) {
-              return t._id == til._id;
+              return t._id === til._id;
             })[0].comments;
             expect(comments.length).to.be.above(1);
             done();

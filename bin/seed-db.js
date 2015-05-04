@@ -33,7 +33,7 @@ var data = {
 
 function seedModel (modelName) {
   console.log('Seeding data for  ', modelName);
-  return new rsvp.all(data[modelName].map(function (modelData) {
+  return rsvp.all(data[modelName].map(function (modelData) {
     return new rsvp.Promise(function (resolve, reject) {
       models[modelName].create(modelData, function (err, result) {
         if (err) { return reject(err); }
@@ -55,7 +55,7 @@ function connect (cb) {
   mongoose.connect(DB, function () {
     mongoose.connection.db.dropDatabase(function () {
       console.log('Dropped Database. ' + DB + ' Seeding');
-      cb()
+      cb();
     });
   });
 }
@@ -69,8 +69,8 @@ function seed () {
         .then(function (comments) {
           return populateComments(tils, comments);
         });
-      }).finally(function () { resolve(); })
-    })
+      }).finally(function () { resolve(); });
+    });
   })
   .catch(function (err) {
     console.log('Error seeding', err);
@@ -82,7 +82,7 @@ seed.clean = function () {
   return new rsvp.Promise(function (resolve) {
     mongoose.disconnect(resolve);
   });
-}
+};
 
 if (require.main === module) {
   return seed()
