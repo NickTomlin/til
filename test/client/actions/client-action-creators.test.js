@@ -3,13 +3,13 @@
 var dispatcher = require('til/dispatcher');
 var events = require('til/constants').events;
 
-describe('clientActions', function () {
-  beforeEach(inject(function ($rootScope, $http, $q, clientActions, serverActions) {
+describe('clientActionCreators', function () {
+  beforeEach(inject(function ($rootScope, $http, $q, clientActionCreators, serverActionCreators) {
     this.$rootScope = $rootScope;
     this.$http = $http;
     this.$q = $q;
-    this.clientActions = clientActions;
-    this.serverActions = serverActions;
+    this.clientActionCreators = clientActionCreators;
+    this.serverActionCreators = serverActionCreators;
     sandbox.spy(dispatcher, 'dispatch');
   }));
 
@@ -24,7 +24,7 @@ describe('clientActions', function () {
     });
 
     it('dispatches new til', function() {
-      this.clientActions.addTIL(this.til);
+      this.clientActionCreators.addTIL(this.til);
 
       expect(dispatcher.dispatch).to.have.been.calledWith({
         type: events.ADD_TIL,
@@ -33,25 +33,25 @@ describe('clientActions', function () {
     });
 
     it('adds a clientId to new til', function () {
-      this.clientActions.addTIL(this.til);
+      this.clientActionCreators.addTIL(this.til);
 
       var newTil = dispatcher.dispatch.lastCall.args[0].til;
       expect(newTil).to.have.property('clientId');
     });
 
     it('posts til to server', function() {
-      this.clientActions.addTIL(this.til);
+      this.clientActionCreators.addTIL(this.til);
       expect(this.$http.post.lastCall.args[1]).to.contain(this.til);
     });
 
     it('triggers server action when request succeeds', function () {
-      sandbox.spy(this.serverActions, 'receiveTil');
+      sandbox.spy(this.serverActionCreators, 'receiveTil');
 
       this.tilRequest.resolve({data: {til: this.til }});
-      this.clientActions.addTIL(this.til);
+      this.clientActionCreators.addTIL(this.til);
       this.$rootScope.$digest();
 
-      expect(this.serverActions.receiveTil).to.have.been.calledWith(this.til);
+      expect(this.serverActionCreators.receiveTil).to.have.been.calledWith(this.til);
     });
   });
 });

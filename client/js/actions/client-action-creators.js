@@ -5,7 +5,7 @@ var uuid = require('node-uuid').v1;
 var log = require('../lib/log')('actions:client');
 var events = require('../constants').events;
 
-module.exports = function ($http, serverActions) {
+module.exports = function ($http, serverActionCreators) {
   this.addTIL = function (til) {
     log(events.ADD_TIL, til);
     til.clientId = uuid();
@@ -17,10 +17,10 @@ module.exports = function ($http, serverActions) {
     // todo: use a service here
     $http.post('/api/til', til)
       .then(function (res) {
-        serverActions.receiveTil(res.data.til);
+        serverActionCreators.receiveTil(res.data.til);
       })
       .catch(function (res) {
-        serverActions.receiveTilError(res.data);
+        serverActionCreators.receiveTilError(res.data);
       });
   };
 

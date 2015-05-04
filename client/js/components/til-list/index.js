@@ -5,10 +5,10 @@ module.exports = function () {
     scope: {
       'tils': '=tils'
     },
-    controller: function ($scope, AuthenticationStore, clientActions) {
+    controller: function ($scope, AuthenticationStore, clientActionCreators) {
       $scope.addComment = function (event, til) {
         if (event.which === 13) {
-          clientActions.addComment({
+          clientActionCreators.addComment({
             userId: AuthenticationStore.getCurrentUser().id,
             text: event.target.value,
             tilClientId: til.clientId
