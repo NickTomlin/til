@@ -2,16 +2,18 @@
 
 module.exports = function (clientActionCreators, AuthenticationStore) {
   return {
-    link: function ($scope, $elem) {
-      $elem.on('keydown', function (event) {
-        if (event.which === 13) {
+    scope: {},
+    template: '<input ng-keyup="addTil($event)" class="form-control">',
+    link: function ($scope) {
+      $scope.addTil = function ($event) {
+        if ($event.which === 13) {
           clientActionCreators.addTIL({
-            text: $elem.val(),
+            text: $event.currentTarget.value,
             userId: AuthenticationStore.getCurrentUser().id
           });
-          $elem.val('');
+          $event.currentTarget.value = '';
         }
-      });
+      };
     }
   };
 };
