@@ -8,13 +8,20 @@ function nameValidator (name) {
   return !/^fail$/.test(name);
 }
 
+var comment = new mongoose.Schema({
+  text: {
+    type: 'String',
+    required: true
+  }
+});
+
 module.exports = mongoose.model('til', mongoose.Schema({
   text: {
     type: String,
     required: true,
     validate: [nameValidator, 'Purposefully rejecting because of value {VALUE}.']
   },
-  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'comment'}],
+  comments: [comment],
   userId: {
     type: String,
     required: true

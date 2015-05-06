@@ -77,7 +77,6 @@ describe('api', function () {
     it('adds comments to a til', function (done) {
       models.til
       .findOne({})
-      .populate('comments')
       .exec(function (err, til) {
         request
         .post('/api/til/comments' )
@@ -96,16 +95,16 @@ describe('api', function () {
 
     it('includes comments in til results', function (done) {
       models.til
-      .findOne({})
-      .populate('comments')
+      .findOne({'comments.1': {$exists: true}})
       .exec(function (err, til) {
         request
           .get('/api/til')
           .expect(200, function (respError, res) {
             if (err) { done(err); }
-            var comments = res.body.filter(function (t) {
-              return t._id === til._id;
+            var comments = res.body.til.filter(function (t) {
+              return t._id == til._id;
             })[0].comments;
+
             expect(comments.length).to.be.above(1);
             done();
           });

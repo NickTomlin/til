@@ -2,5 +2,5 @@
 
 module.exports = {
   til: require('./til'),
-  comment: require('./comment')
+  user: require('./user')
 };

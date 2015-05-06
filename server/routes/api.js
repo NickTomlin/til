@@ -18,7 +18,6 @@ router.param('model', function (req, res, next) {
 router.get('/:model', function (req, res, next) {
   req.model
     .find({})
-    .populate('comments')
     .exec(function (err, result) {
       if (err) { return next(err); }
       var data = {};
@@ -28,26 +27,15 @@ router.get('/:model', function (req, res, next) {
 });
 
 router.post('/til/comments', function (req, res) {
-  var comment = new models.comment({ //eslint-disable-line
-    text: req.body.comment.text
-  });
-
-  models.til.findOneAndUpdate({
-    _id: req.body.tilId
-  },
-  {$push: {comments: comment}})
-  .populate('comments')
-  .exec(function (err, result) {
-    if (err) {
-      throw new Error(err);
-    }
-
-    console.log('found', result);
-
-    res
-    .status(201)
-    .json({
-      til: result
+  models.til.findOne({_id: req.body.tilId}, function (findErr, til) {
+    til.comments.push(req.body.comment);
+    til.save(function (err, result) {
+      if (err) {return next(err);}
+      res
+      .status(201)
+      .json({
+        til: result
+      });
     });
   });
 });

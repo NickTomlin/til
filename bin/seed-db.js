@@ -7,88 +7,99 @@ var models = require('../server/models');
 var DB = config.get('db');
 
 var data = {
+  user: [
+    {displayName: 'Marty McFly'},
+    {displayName: 'Doc Brown'}
+  ],
   til: [
     {
+      userId: 'user-id',
       text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + =',
-      userId: '0'
     },
     {
+      userId: 'user-id',
       text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates',
-      userId: '0'
     },
     {
+      userId: 'user-id-two',
       text: '#mongoose has native es6 support built into version 3.9.X',
-      userId: '0'
-    }
-  ],
-  comment: [
-    {
-      text: 'hey this is a great comment'
-    },
-    {
-      text: 'I disagree'
+      comments: [
+        {
+          text: 'hey this is a great comment'
+        },
+        {
+          text: 'I disagree'
+        }
+      ],
     }
   ]
 };
 
-function seedModel (modelName) {
-  console.log('Seeding data for  ', modelName);
-  return rsvp.all(data[modelName].map(function (modelData) {
-    return new rsvp.Promise(function (resolve, reject) {
-      models[modelName].create(modelData, function (err, result) {
-        if (err) { return reject(err); }
-        resolve(result);
-      });
+function connect (cb) {
+  return new rsvp.Promise(function (resolve) {
+    if (mongoose.connection.db) {
+      console.log('Seed: Database already connected');
+      return resolve();
+    }
+
+    mongoose.connect(DB);
+
+    mongoose.connection.on('open', function () {
+      console.log('connect');
+      resolve();
     });
+
+    mongoose.connection.on('error', function (err) {
+      console.log('mongo error', err);
+      console.log(err.stack);
+    })
+  });
+}
+
+function close () {
+  if (mongoose.connection.db) {
+    mongoose.connection.close();
+  }
+}
+
+function populateModel (modelName) {
+  // we should totally just remove the model here
+  // but mongoose does not seem to like us doing that
+  var model = models[modelName];
+  return rsvp.all(data[modelName].map(function (modelData) {
+    return new model(modelData).save();
   }));
 }
 
-function populateComments (tils, comments) {
-  comments.forEach(function (comment) {
-    tils[0].comments.push(comment);
-  });
-  return tils[0].save();
-}
-
-function connect (cb) {
-  if (mongoose.connection.db) { return cb(); }
-  mongoose.connect(DB, function () {
-    mongoose.connection.db.dropDatabase(function () {
-      console.log('Dropped Database. ' + DB + ' Seeding');
-      cb();
-    });
-  });
-}
-
-function seed () {
-  return new rsvp.Promise(function (resolve) {
-    connect(function () {
-      seedModel('til')
-      .then(function (tils) {
-        return seedModel('comment')
-        .then(function (comments) {
-          return populateComments(tils, comments);
+function populate () {
+  return connect()
+  .then(function () {
+    return models.user.remove({})
+    .then(function (val) {
+      return models.til.remove({})
+    })
+    .then(function () {
+      return populateModel('user')
+        .then(function (users) {
+          return populateModel('til');
         });
-      }).finally(function () { resolve(); });
     });
   })
   .catch(function (err) {
-    console.log('Error seeding', err);
+    console.log('seed err', err);
+    console.log(err.stack);
   });
 }
-
-seed.clean = function () {
-  console.log('Disconnecting from', DB);
-  return new rsvp.Promise(function (resolve) {
-    mongoose.disconnect(resolve);
-  });
-};
 
 if (require.main === module) {
-  return seed()
-    .finally(function () {
-      return seed.clean();
-    });
+  populate()
+    .then(function () {
+      console.log('Succesfully Populated database');
+    })
+    .finally(close);
 }
 
-module.exports = seed;
+module.exports = {
+  populate: populate,
+  close: close
+};

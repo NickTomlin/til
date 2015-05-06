@@ -9,13 +9,11 @@ var app = require('../../../server');
 global.request = request(app);
 
 before(function (done) {
-  seed()
-  .then(function () {
-    console.log('DONE');
-    done();
+  seed.populate().then(function () {
+    done()
   });
 });
 
-after(function (done) {
-  seed.clean().then(done);
+after(function () {
+  seed.close();
 });
