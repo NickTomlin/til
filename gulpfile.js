@@ -5,10 +5,8 @@ var browserify = require('browserify');
 var util = require('gulp-util');
 var shell = require('gulp-shell');
 var watchify = require('watchify');
-var mkdirp = require('mkdirp');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
-var del = require('del');
 
 var MANIFEST = {
   js: {
@@ -45,7 +43,7 @@ function buildScript (src, watch) {
   return rebundle();
 }
 
-gulp.task('dev', ['build'], function () {
+gulp.task('dev', function () {
   nodemon({
     script: 'bin/www',
     ext: 'js html jade',
@@ -74,13 +72,5 @@ gulp.task('css', function () {
   .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('clean', function (cb) {
-  del(['dist/**/*', '!dist/css', '!dist/templates'], function () {
-    mkdirp.sync('./dist/css');
-    mkdirp.sync('./dist/templates');
-    cb();
-  });
-});
-
-gulp.task('build', ['clean', 'templates', 'css', 'js']);
-gulp.task('default', ['build', 'dev']);
+gulp.task('build', ['templates', 'css', 'js']);
+gulp.task('default', ['dev']);
