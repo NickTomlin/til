@@ -28,36 +28,36 @@ tilApp.run(function (TilStore, UserStore, AuthenticationStore, serverActionCreat
   if (global.test) { return; }
   serverActionCreators.addUser({
     id: 1,
-    displayName: 'Nick Tomlin'
+    displayName: 'Marty Mcfly'
   });
 
   serverActionCreators.addUser({
     id: 2,
-    displayName: 'Ember Bob'
+    displayName: 'Doc Brown'
   });
 
   serverActionCreators.receiveTil({
     userId: 1,
-    text: 'Angular and Flux work together',
+    text: 'Biff was always a jerk.',
     clientId: 1234
   });
 
   serverActionCreators.receiveTil({
     userId: 2,
-    text: 'It\'s all in your mind',
+    text: 'Time Travel is possible!',
     clientId: 5678
   });
 
   clientActionCreators.addComment({
     tilClientId: TilStore.get()[0].clientId,
     userId: 2,
-    text: 'But what do you think about ember?'
+    text: 'Gah! Don\'t interfere with the past!',
   });
 
   clientActionCreators.addComment({
-    tilClientId: TilStore.get()[1].clientId,
+    tilClientId: TilStore.get()[0].clientId,
     userId: 1,
-    text: 'Deep.'
+    text: 'Well you would too if you had parents like mine.'
   });
 });
 
