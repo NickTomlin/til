@@ -1,4 +1,4 @@
-<div  ng-repeat="til in tils track by til.clientId" class="panel panel-info" ng-class="{'panel-warning': til.errors}">
+<div  ng-repeat="til in tils() track by til.clientId" class="panel panel-info" ng-class="{'panel-warning': til.errors}">
   <header class="panel-heading">
     <h3 class="panel-title">{{til.text}} - {{til.user.displayName}}</h3>
   </header>

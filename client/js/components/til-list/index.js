@@ -3,7 +3,7 @@
 module.exports = function () {
   return {
     scope: {
-      'tils': '=tils'
+      'tils': '&tils'
     },
     controller: function ($scope, AuthenticationStore, clientActionCreators) {
       $scope.addComment = function (event, til) {
