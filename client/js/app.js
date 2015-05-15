@@ -51,7 +51,7 @@ tilApp.run(function (TilStore, UserStore, AuthenticationStore, serverActionCreat
   clientActionCreators.addComment({
     tilClientId: TilStore.get()[0].clientId,
     userId: 2,
-    text: 'Gah! Don\'t interfere with the past!',
+    text: 'Gah! Don\'t interfere with the past!'
   });
 
   clientActionCreators.addComment({

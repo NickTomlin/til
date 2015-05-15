@@ -10,7 +10,7 @@ global.request = request(app);
 
 before(function (done) {
   seed.populate().then(function () {
-    done()
+    done();
   });
 });
 

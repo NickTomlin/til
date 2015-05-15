@@ -26,11 +26,11 @@ router.get('/:model', function (req, res, next) {
     });
 });
 
-router.post('/til/comments', function (req, res) {
+router.post('/til/comments', function (req, res, next) {
   models.til.findOne({_id: req.body.tilId}, function (findErr, til) {
     til.comments.push(req.body.comment);
     til.save(function (err, result) {
-      if (err) {return next(err);}
+      if (err) { return next(err); }
       res
       .status(201)
       .json({

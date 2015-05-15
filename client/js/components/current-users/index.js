@@ -3,11 +3,8 @@
 module.exports = function () {
   return {
     scope: {
-      'users': '=users'
+      'users': '&users'
     },
-    templateUrl: '/templates/components/current-users/current-users.html',
-    link: function ($scope, elem, attrs) {
-      console.log('hey', attrs);
-    }
+    templateUrl: '/templates/components/current-users/current-users.html'
   };
 };

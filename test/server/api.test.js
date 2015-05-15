@@ -15,7 +15,7 @@ describe('api', function () {
       request.get('/api/til')
         .expect(200)
         .end(function (err, res) {
-          if (err) {  return done(err); }
+          if (err) { return done(err); }
           expect(res.body.til.length).to.eql(tils.length);
           done();
         });
@@ -102,7 +102,7 @@ describe('api', function () {
           .expect(200, function (respError, res) {
             if (err) { done(err); }
             var comments = res.body.til.filter(function (t) {
-              return t._id == til._id;
+              return t._id == til._id; // eslint-disable-line eqeqeq
             })[0].comments;
 
             expect(comments.length).to.be.above(1);

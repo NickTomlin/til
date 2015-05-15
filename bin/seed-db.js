@@ -14,11 +14,11 @@ var data = {
   til: [
     {
       userId: 'user-id',
-      text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + =',
+      text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + ='
     },
     {
       userId: 'user-id',
-      text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates',
+      text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates'
     },
     {
       userId: 'user-id-two',
@@ -30,12 +30,12 @@ var data = {
         {
           text: 'I disagree'
         }
-      ],
+      ]
     }
   ]
 };
 
-function connect (cb) {
+function connect () {
   return new rsvp.Promise(function (resolve) {
     if (mongoose.connection.db) {
       console.log('Seed: Database already connected');
@@ -52,7 +52,7 @@ function connect (cb) {
     mongoose.connection.on('error', function (err) {
       console.log('mongo error', err);
       console.log(err.stack);
-    })
+    });
   });
 }
 
@@ -75,12 +75,12 @@ function populate () {
   return connect()
   .then(function () {
     return models.user.remove({})
-    .then(function (val) {
-      return models.til.remove({})
+    .then(function () {
+      return models.til.remove({});
     })
     .then(function () {
       return populateModel('user')
-        .then(function (users) {
+        .then(function () {
           return populateModel('til');
         });
     });
