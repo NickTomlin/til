@@ -34,13 +34,15 @@ module.exports = function (UserStore, TilService, uuid) {
     return til;
   }
 
-  function addTil (tilItem) {
+  function addTilToItems (tilItem) {
     var til = prepareTil(tilItem);
-
     _items[til.clientId] = til;
-    TilService.add(til);
 
-    log('updated', _items);
+    return til;
+  }
+
+  function saveTil (til) {
+    TilService.add(til);
   }
 
   function addErrors (payload) {
@@ -57,21 +59,30 @@ module.exports = function (UserStore, TilService, uuid) {
     handler: function (type, payload) {
       switch (type) {
         case events.RECEIVE_TIL_ERROR:
+          log('til error', payload);
           this.waitFor(UserStore.dispatchToken);
           addErrors(payload);
           this.emitChange();
         break;
 
         case events.ADD_COMMENT:
+          log('add commment', payload);
           addCommentToTil(payload.comment);
           this.emitChange();
         break;
 
         case events.RECEIVE_TIL:
+          log('receive', payload);
+          this.waitFor(UserStore.dispatchToken);
+          addTilToItems(payload.til);
+          this.emitChange();
+        break;
+
         case events.ADD_TIL:
           log('add', payload);
           this.waitFor(UserStore.dispatchToken);
-          addTil(payload.til);
+          var storedTil = addTilToItems(payload.til);
+          saveTil(storedTil);
           this.emitChange();
         break;
 

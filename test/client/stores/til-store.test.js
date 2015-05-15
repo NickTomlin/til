@@ -27,11 +27,18 @@ describe('Til Store', function () {
     });
   }));
 
-  beforeEach(inject(function (_TilStore_, _TilService_, uuid) {
+  beforeEach(inject(function (_TilStore_, _TilService_) {
     this.TilStore = _TilStore_;
     this.TilService = _TilService_;
+
     sandbox.stub(this.TilService, 'add');
   }));
+
+  beforeEach(function () {
+    this.til = {
+      text: 'test'
+    };
+  });
 
   describe('adding', function () {
     it('adds an item', function () {
@@ -53,9 +60,11 @@ describe('Til Store', function () {
     });
   });
 
-  it('marks tils with error', function () {
-    this.TilStore.handler(events.ADD_TIL, todoCreate);
-    this.TilStore.handler(events.RECEIVE_TIL_ERROR, tilError);
-    expect(this.TilStore.get()[0]).to.have.property('errors');
+  describe('error handling', function () {
+    it('marks tils with error', function () {
+      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.TilStore.handler(events.RECEIVE_TIL_ERROR, tilError);
+      expect(this.TilStore.get()[0]).to.have.property('errors');
+    });
   });
 });
