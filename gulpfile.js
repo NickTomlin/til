@@ -12,7 +12,8 @@ var MANIFEST = {
   js: {
     clientMain: './client/js/app.js',
     clientAll: 'client/js/**/*.js',
-    serverAll: 'server/**/*.js'
+    serverAll: 'server/**/*.js',
+    spec: 'test/**/*.js'
   },
   templates: {
     all: 'client/js/**/*.html'
@@ -49,7 +50,7 @@ gulp.task('dev', function () {
     ext: 'js html jade',
     watch: 'server'
   });
-  gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll], ['lint']);
+  gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll, MANIFEST.js.spec], ['lint']);
   gulp.watch([MANIFEST.templates.all], ['templates']);
   buildScript(MANIFEST.js.clientMain, true);
 });
