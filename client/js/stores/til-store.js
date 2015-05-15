@@ -12,12 +12,17 @@ module.exports = function (UserStore, TilService, uuid) {
   }
 
   function addCommentToTil (comment) {
+    var til = _items[comment.tilClientId];
+
     if (!comment.clientId) {
       comment.clientId = uuid();
     }
-    var til = _items[comment.tilClientId];
+
+    comment.tilId = til._id;
     getUserDataForComment(comment);
     til.comments.push(comment);
+
+    return comment;
   }
 
   function prepareTil (til) {
@@ -45,6 +50,10 @@ module.exports = function (UserStore, TilService, uuid) {
     TilService.add(til);
   }
 
+  function saveComment (comment) {
+    TilService.addComment(comment);
+  }
+
   function addErrors (payload) {
     var errorTil = _items[payload.clientId];
     errorTil.errors = payload.errors;
@@ -67,7 +76,8 @@ module.exports = function (UserStore, TilService, uuid) {
 
         case events.ADD_COMMENT:
           log('add commment', payload);
-          addCommentToTil(payload.comment);
+          var storedComment = addCommentToTil(payload.comment);
+          saveComment(storedComment);
           this.emitChange();
         break;
 

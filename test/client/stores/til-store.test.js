@@ -40,7 +40,7 @@ describe('Til Store', function () {
     };
   });
 
-  describe('adding', function () {
+  describe('tils', function () {
     it('adds an item', function () {
       this.TilStore.handler(events.ADD_TIL, todoCreate);
       expect(this.TilStore.get()).to.have.length(1);
@@ -60,6 +60,33 @@ describe('Til Store', function () {
     });
   });
 
+  describe('comments', function () {
+    beforeEach(function () {
+      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.commentCreatePayload = {
+        comment: {
+          tilClientId: 'stubbed-client-id'
+        }
+      };
+    });
+
+    it('adds a comment to til', function () {
+      this.TilStore.handler(events.ADD_COMMENT, this.commentCreatePayload);
+      expect(this.TilStore.get()[0].comments).to.have.length(1);
+    });
+
+    it('makes a server side call to create the til', function () {
+      sandbox.stub(this.TilService, 'addComment');
+      this.TilStore.handler(events.ADD_COMMENT, this.commentCreatePayload);
+      expect(this.TilService.addComment).to.have.been.calledWithMatch(this.commentCreatePayload.comment);
+    });
+
+    it('adds a clientId to new til', function () {
+      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      expect(this.TilStore.get()[0]).to.have.property('clientId');
+    });
+  });
+
   describe('error handling', function () {
     it('marks tils with error', function () {
       this.TilStore.handler(events.ADD_TIL, todoCreate);
@@ -67,4 +94,5 @@ describe('Til Store', function () {
       expect(this.TilStore.get()[0]).to.have.property('errors');
     });
   });
+
 });

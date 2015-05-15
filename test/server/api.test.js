@@ -29,8 +29,22 @@ describe('api', function () {
       .expect(201)
       .end(function (err, res) {
         if (err) { done(err); }
-        console.log(res.body.errors);
         expect(res.body.til.text).to.eql(this.validTil.text);
+        done();
+      }.bind(this));
+  });
+
+  it('includes clientId in response if one exists', function (done) {
+    this.validTil.clientId = 'myClientId';
+
+    request
+      .post('/api/til')
+      .send(this.validTil)
+      .expect(201)
+      .end(function (err, res) {
+        if (err) { done(err); }
+        expect(res.body.til.text).to.eql(this.validTil.text);
+        expect(res.body.til.clientId).to.eql('myClientId');
         done();
       }.bind(this));
   });
@@ -82,9 +96,7 @@ describe('api', function () {
         .put('/api/til/comments' )
         .send({
           tilId: til._id,
-          comment: {
-            text: '#mocha is great'
-          }
+          text: '#mocha is great'
         })
         .expect(201, function (respError, res) {
           expect(JSON.stringify(res.body.til.comments)).to.contain('#mocha is great');

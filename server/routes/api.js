@@ -28,7 +28,11 @@ router.get('/:model', function (req, res, next) {
 
 router.put('/til/comments', function (req, res, next) {
   models.til.findOne({_id: req.body.tilId}, function (findErr, til) {
-    til.comments.push(req.body.comment);
+    if (findErr) { return next(findErr); }
+
+    logger.info('Updating comment for', til, 'with', req.body);
+
+    til.comments.push(req.body);
     til.save(function (err, result) {
       if (err) { return next(err); }
       res
@@ -41,6 +45,9 @@ router.put('/til/comments', function (req, res, next) {
 });
 
 router.post('/:model', function (req, res) {
+  var modelName = req.model.modelName;
+  var clientId = req.body[modelName] && req.body[modelName].clientId;
+
   new req.model(req.body)
     .save(function (err, result) {
       var resp = {};
@@ -56,7 +63,11 @@ router.post('/:model', function (req, res) {
         }, 900);
       }
 
-      resp[req.model.modelName] = result;
+      if (clientId) {
+        result.clientId = clientId;
+      }
+
+      resp[modelName] = result;
 
       res.status(201);
       res.json(resp);

@@ -10,6 +10,10 @@ module.exports = function ($http, serverActionCreators) {
       });
   };
 
+  this.addComment = function (comment) {
+    return $http.put(this._ENDPOINT + '/comments', comment);
+  };
+
   this.getAll = function () {
     return $http.get(this._ENDPOINT).then(function (res) {
       res.data.til.forEach(function (til) {
