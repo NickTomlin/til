@@ -32,13 +32,6 @@ describe('clientActionCreators', function () {
       });
     });
 
-    it('adds a clientId to new til', function () {
-      this.clientActionCreators.addTIL(this.til);
-
-      var newTil = dispatcher.dispatch.lastCall.args[0].til;
-      expect(newTil).to.have.property('clientId');
-    });
-
     it('posts til to server', function() {
       this.clientActionCreators.addTIL(this.til);
       expect(this.$http.post.lastCall.args[1]).to.contain(this.til);

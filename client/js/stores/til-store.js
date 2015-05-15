@@ -4,26 +4,42 @@ var store = require('../lib/base-store');
 var events = require('../constants').events;
 var log = require('../lib/log')('stores:til-store');
 
-module.exports = function (UserStore) {
+module.exports = function (UserStore, TilService, uuid) {
   var _items = {};
 
   function getUserDataForComment (comment) {
     comment.user = UserStore.get(comment.userId);
   }
 
-  function addComment (comment) {
+  function addCommentToTil (comment) {
+    if (!comment.clientId) {
+      comment.clientId = uuid();
+    }
     var til = _items[comment.tilClientId];
     getUserDataForComment(comment);
     til.comments.push(comment);
   }
 
-  function add (til) {
+  function prepareTil (til) {
     if (!til.comments) {
       til.comments = [];
     }
+
+    if (!til.clientId) {
+      til.clientId = uuid();
+    }
+
     til.comments.forEach(getUserDataForComment);
     til.user = UserStore.get(til.userId);
+    return til;
+  }
+
+  function addTil (tilItem) {
+    var til = prepareTil(tilItem);
+
     _items[til.clientId] = til;
+    TilService.add(til);
+
     log('updated', _items);
   }
 
@@ -47,7 +63,7 @@ module.exports = function (UserStore) {
         break;
 
         case events.ADD_COMMENT:
-          addComment(payload.comment);
+          addCommentToTil(payload.comment);
           this.emitChange();
         break;
 
@@ -55,7 +71,7 @@ module.exports = function (UserStore) {
         case events.ADD_TIL:
           log('add', payload);
           this.waitFor(UserStore.dispatchToken);
-          add(payload.til);
+          addTil(payload.til);
           this.emitChange();
         break;
 
