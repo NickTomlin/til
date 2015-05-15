@@ -7,7 +7,7 @@ console.log('Loading configuration for', ENV);
 var nconf = require('nconf');
 
 nconf.file({
-  file: path.resolve(__dirname, '../config/' + ENV + '.yaml'),
+  file: path.resolve(__dirname, '../../config/' + ENV + '.yaml'),
   format: require('nconf-yaml')
 });
 

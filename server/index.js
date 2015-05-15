@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('../lib/config');
+var config = require('./lib/config');
 var app = require('express')();
 var logger = require('./lib/logger');
 var mongoose = require('mongoose');

@@ -2,7 +2,7 @@
 
 var rsvp = require('rsvp');
 var mongoose = require('mongoose');
-var config = require('../lib/config');
+var config = require('../server/lib/config');
 var models = require('../server/models');
 var DB = config.get('db');
 
