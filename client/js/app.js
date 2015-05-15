@@ -13,6 +13,7 @@ tilApp.service('clientActionCreators', require('./actions/client-action-creators
 tilApp.service('serverActionCreators', require('./actions/server-action-creators'));
 
 tilApp.service('TilService', require('./services/til-service'));
+tilApp.service('uuid', require('./lib/uuid'));
 
 
 tilApp.service('TilStore', require('./stores/til-store'));
