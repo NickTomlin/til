@@ -79,7 +79,7 @@ describe('api', function () {
       .findOne({})
       .exec(function (err, til) {
         request
-        .post('/api/til/comments' )
+        .put('/api/til/comments' )
         .send({
           tilId: til._id,
           comment: {
