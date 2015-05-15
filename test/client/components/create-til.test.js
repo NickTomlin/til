@@ -3,14 +3,16 @@
 describe('CreateTilDirective', function () {
   beforeEach(inject(function ($compile, $rootScope, clientActionCreators) {
     this.$scope = $rootScope;
-    this.elem = angular.element('<input create-til></input>');
+    this.elem = angular.element('<create-til></create-til>');
     this.clientActionCreators = clientActionCreators;
-    sandbox.spy(clientActionCreators, 'addTIL');
+    sandbox.stub(clientActionCreators, 'addTIL');
     $compile(this.elem)(this.$scope);
 
+    this.input = this.elem.find('input');
+
     this.addTIL = function (text) {
-      helpers.type(this.elem, text || '');
-      helpers.keydown(this.elem, 13);
+      helpers.type(this.input, text || '');
+      helpers.keyup(this.input, 13);
     }.bind(this);
   }));
 
@@ -24,6 +26,6 @@ describe('CreateTilDirective', function () {
 
   it('clears the subitTil input when a TIL is submitted', function () {
     this.addTIL('test');
-    expect(this.elem.val()).to.eql('');
+    expect(this.input.val()).to.eql('');
   });
 });

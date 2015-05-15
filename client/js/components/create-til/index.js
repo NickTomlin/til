@@ -7,11 +7,12 @@ module.exports = function (clientActionCreators, AuthenticationStore) {
     link: function ($scope) {
       $scope.addTil = function ($event) {
         if ($event.which === 13) {
+          var input = $event.target;
           clientActionCreators.addTIL({
-            text: $event.currentTarget.value,
+            text: input.value,
             userId: AuthenticationStore.getCurrentUser().id
           });
-          $event.currentTarget.value = '';
+          input.value = '';
         }
       };
     }

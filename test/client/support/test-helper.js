@@ -11,11 +11,11 @@ global.helpers = {
   type: function (elem, value) {
     elem.val(value).triggerHandler('input');
   },
-  keydown: function (elem, keyCode) {
+  keyup: function (elem, keyCode) {
     // triggerhandler accepts an event name string
     // or an object
     elem.triggerHandler({
-      type: 'keydown',
+      type: 'keyup',
       which: keyCode
     });
   }
