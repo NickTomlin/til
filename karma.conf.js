@@ -19,6 +19,10 @@ module.exports = function(config) {
 
     reporters: ['progress'],
 
+    browserify: {
+      debug: true
+    },
+
     port: 9876,
 
     colors: true,
