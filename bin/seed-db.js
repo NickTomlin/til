@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 var rsvp = require('rsvp');
