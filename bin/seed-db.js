@@ -9,8 +9,8 @@ var DB = config.get('db');
 
 var data = {
   user: [
-    {displayName: 'Marty McFly'},
-    {displayName: 'Doc Brown'}
+    {displayName: 'Marty McFly', email: 'marty@mcfly.com', authorizations: [{name: 'basic', uuid: 'marty@mcfly.com'}]},
+    {displayName: 'Doc Brown', email: 'doc@brown.com'}
   ],
   til: [
     {
@@ -46,7 +46,7 @@ function connect () {
     mongoose.connect(DB);
 
     mongoose.connection.on('open', function () {
-      console.log('connect');
+      console.log('connected');
       resolve();
     });
 

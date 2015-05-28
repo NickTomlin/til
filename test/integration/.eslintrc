@@ -1,0 +1,4 @@
+globals:
+  browser: true
+  $: true
+  $$: true
