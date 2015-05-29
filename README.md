@@ -1,17 +1,33 @@
-Building attainable applications with Flux
+TIL
 
 ---
 
-Facebook's Flux architecture is designed to make managing complex and dynamic views simple and maintainable. This talk focuses on how Flux provides a solid base for creating and scaling front-end applications, regardless of framework or size. We will build a small application and gradually scale it out, showing how Flux helps encourage sustainable decisions each step of the way.
+# Getting Started
 
+Install (and start) the following required services:
 
-# Getting started
-
-The application requires a running instance of mongodb.
+- Redis
+- Mongodb
 
 Copy `development.example.yaml` to `config/development.yaml` and edit the settings to match your machine.
 
 ```
 npm i
 npm start
+```
+
+# Tests
+
+```
+# unit and integration tests. Server, and all required services, must be running
+npm t
+
+# client side unit tests
+npm run test:client
+
+# server side unit tests
+npm run test:server
+
+# integration tests
+npm run test:integration
 ```
