@@ -6,7 +6,8 @@ describe('userModel', function () {
   beforeEach(function () {
     this.validUser = {
       userId: '1',
-      text: 'test'
+      displayName: 'Marty Mcfly',
+      email: 'foo@bar.com'
     };
   });
 
