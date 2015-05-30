@@ -8,13 +8,13 @@ module.exports = function () {
   var _users = {};
 
   function add (userObj) {
-    _users[userObj.id] = userObj;
+    _users[userObj._id] = userObj;
     log('updated', _users);
   }
 
   return store({
-    get: function (id) {
-      return _users[id] || {};
+    get: function (_id) {
+      return _users[_id] || {};
     },
     all: function () {
       return _users;

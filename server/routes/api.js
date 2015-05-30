@@ -48,6 +48,7 @@ router.get('/:model', function (req, res, next) {
 router.put('/til/comments', function (req, res, next) {
   models.til.findOne({_id: req.body.tilId}, function (findErr, til) {
     if (findErr) { return next(findErr); }
+    if (!til) { return res.status(404).end(); }
 
     logger.info('Updating comment for', til, 'with', req.body);
 

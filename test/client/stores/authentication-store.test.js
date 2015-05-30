@@ -5,7 +5,7 @@ var events = require('til/constants').events;
 describe('Authentication Store', function () {
   beforeEach(inject(function (_AuthenticationStore_) {
     this.AuthenticationStore = _AuthenticationStore_;
-    this.addAuthenticationPayload = {user: {id: 1}};
+    this.addAuthenticationPayload = {user: {_id: 'my-id'}};
   }));
 
   describe('#isAuthenticated()', function () {
@@ -16,6 +16,13 @@ describe('Authentication Store', function () {
 
     it('returns false if a user is not authenticated', function () {
       expect(this.AuthenticationStore.isAuthenticated()).to.eql(false);
+    });
+  });
+
+  describe('#currentUserId()', function () {
+    it('returns the id of the current user', function () {
+      this.AuthenticationStore.handler(events.AUTHORIZE_SUCCESS, this.addAuthenticationPayload);
+      expect(this.AuthenticationStore.getCurrentUserId()).to.eql('my-id');
     });
   });
 });

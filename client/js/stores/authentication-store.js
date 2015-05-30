@@ -13,10 +13,10 @@ module.exports = function () {
 
   return store({
     getCurrentUserId: function () {
-      return _auth.user.id;
+      return _auth.user._id;
     },
     isAuthenticated: function () {
-      return !!_auth.user.id;
+      return !!_auth.user._id;
     },
     handler: function (type, payload) {
       switch (type) {
