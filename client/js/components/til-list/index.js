@@ -9,7 +9,7 @@ module.exports = function () {
       $scope.addComment = function (event, til) {
         if (event.which === 13) {
           clientActionCreators.addComment({
-            userId: AuthenticationStore.getCurrentUser().id,
+            userId: AuthenticationStore.getCurrentUserId(),
             text: event.target.value,
             tilClientId: til.clientId
           });
