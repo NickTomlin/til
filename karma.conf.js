@@ -5,7 +5,7 @@ module.exports = function(config) {
 
     basePath: '',
 
-    frameworks: ['mocha', 'browserify', 'phantomjs-shim'],
+    frameworks: ['browserify', 'source-map-support', 'phantomjs-shim', 'mocha'],
 
     preprocessors: {
       'test/**/*.js': [ 'browserify' ]
