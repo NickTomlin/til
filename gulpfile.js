@@ -29,7 +29,8 @@ function buildScript (src, watch) {
     util.log('Bundling');
     // todo: find a way to avoid piping to dest here
     // ideally we could tack on any additional streams here
-    return bundler.bundle(function () {
+    return bundler.bundle()
+      .on('end', function () {
         util.log('Finished bundling');
       })
       .on('error', function (err) {
