@@ -4,19 +4,14 @@ var dispatcher = require('til/dispatcher');
 var events = require('til/constants').events;
 
 describe('serverActionCreators', function () {
-  beforeEach(inject(function ($rootScope, $http, $q, serverActionCreators) {
+  beforeEach(inject(function ($rootScope, serverActionCreators) {
     this.$rootScope = $rootScope;
-    this.$http = $http;
-    this.$q = $q;
     this.serverActionCreators = serverActionCreators;
     sandbox.spy(dispatcher, 'dispatch');
   }));
 
   describe('receiveTIL', function () {
     beforeEach(function () {
-      var deferred = this.$q.defer();
-      this.tilRequest = deferred;
-      sandbox.stub(this.$http, 'post').returns(this.tilRequest.promise);
       this.til = {
         text: 'test'
       };
@@ -30,18 +25,20 @@ describe('serverActionCreators', function () {
         til: this.til
       });
     });
+  });
 
-    it('adds a clientId to a til if it does not exist', function () {
-      this.serverActionCreators.receiveTil(this.til);
-      var newTil = dispatcher.dispatch.lastCall.args[0].til;
-      expect(newTil).to.have.property('clientId');
+  describe('authorizeSuccess', function () {
+    beforeEach(function () {
+      this.authorizationPayload = {
+        user: {
+          _id: '1234',
+          displayName: 'Marty Mcfly'
+        }
+      };
     });
 
-    it('does not add a clientId if it already exists on incoming til', function () {
-      this.til.clientId = 'old';
-      this.serverActionCreators.receiveTil(this.til);
-      var newTil = dispatcher.dispatch.lastCall.args[0].til;
-      expect(newTil.clientId).to.eql('old');
+    it('dispatches a user', function () {
+      this.serverActionCreators.authorizeSuccess(this.authorizationPayload);
     });
   });
 });

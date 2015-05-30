@@ -4,9 +4,28 @@ var router = require('express').Router();
 var logger = require('../lib/logger');
 var models = require('../models');
 
+router.get('/authorize', function (req, res) {
+  var status = 401;
+  var payload = {
+    authorized: false
+  };
+
+  if (req.isAuthenticated()) {
+    payload.authorized = true;
+    payload.user = req.user;
+    status = 200;
+  }
+
+  res
+    .status(status)
+    .json(payload);
+});
+
 router.param('model', function (req, res, next) {
   var model = req.params.model;
+  logger.info('not found');
   if (!models[model]) {
+    console.log('totally not found');
     return res
       .status(404)
       .end();

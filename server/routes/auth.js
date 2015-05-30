@@ -14,7 +14,7 @@ router.get('/auth/github/callback', auth.authenticate('github', {
     res.redirect('/');
   });
 
-if (process.env.NODE_ENV === 'development') {
+if (/development|test/.test(process.env.NODE_ENV)) {
   router.post('/auth/basic',
     require('body-parser').urlencoded({extended: false}),
     auth.authenticate('local', {

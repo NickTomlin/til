@@ -22,6 +22,29 @@ module.exports = function () {
     });
   };
 
+  this.receiveUser = function (user) {
+    log(events.RECEIVE_USER, user);
+
+    dispatcher.dispatch({
+      type: events.RECEIVE_USER,
+      user: user
+    });
+  };
+
+  this.authorizeSuccess = function (body) {
+    dispatcher.dispatch({
+      type: events.AUTHORIZE_SUCCESS,
+      user: body.user
+    });
+  };
+
+  this.authorizeFailure = function (body) {
+    dispatcher.dispatch({
+      type: events.AUTHORIZE_SUCCESS,
+      errors: body.errors
+    });
+  };
+
   this.receiveTilError = function (body) {
     dispatcher.dispatch({
       type: events.RECEIVE_TIL_ERROR,

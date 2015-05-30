@@ -21,6 +21,7 @@ module.exports = function () {
     },
     handler: function (type, payload) {
       switch (type) {
+        case events.AUTHORIZE_SUCCESS:
         case events.ADD_USER:
           log('Add', payload);
           add(payload.user);

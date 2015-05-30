@@ -8,6 +8,8 @@ globals:
   helpers: false
   it: false
   request: false
+  helpers: false
+  agent: false
   expect: false
   sinon: false
 

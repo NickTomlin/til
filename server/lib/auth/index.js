@@ -7,12 +7,11 @@ var User = require('../../models/user');
 var logger = require('../logger');
 
 passport.use(githubStrategy);
-if (process.env.NODE_ENV === 'development') {
+if (/test|development/.test(process.env.NODE_ENV)) {
   passport.use(localStrategy);
 }
 
 passport.serializeUser(function(user, done) {
-  console.log('serialze');
   logger.info('serializeUser', user.id);
   done(null, user.id);
 });

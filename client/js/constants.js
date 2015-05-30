@@ -11,6 +11,9 @@ module.exports = {
     ADD_COMMENT: null,
     RECEIVE_TIL: null,
     RECEIVE_TIL_ERROR: null,
-    ADD_USER: null
+    ADD_USER: null,
+    RECEIVE_USER: null,
+    AUTHORIZE_SUCCESS: null,
+    AUTHORIZE_FAILURE: null
   })
 };
