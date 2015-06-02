@@ -25,7 +25,6 @@ router.param('model', function (req, res, next) {
   var model = req.params.model;
   logger.info('not found');
   if (!models[model]) {
-    console.log('totally not found');
     return res
       .status(404)
       .end();

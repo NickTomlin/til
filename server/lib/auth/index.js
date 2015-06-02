@@ -17,7 +17,6 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('deserialize');
   logger.info('deserializeUser', id);
   User.findById(id, function (err, user) {
     logger.info('deserializeUser::find', err, user, {});
