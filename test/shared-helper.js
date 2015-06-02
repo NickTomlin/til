@@ -6,3 +6,10 @@ chai.use(require('sinon-chai'));
 global.expect = chai.expect;
 global.sinon = sinon;
 
+beforeEach(function () {
+  global.sandbox = sinon.sandbox.create();
+});
+
+afterEach(function () {
+  global.sandbox.restore();
+});

@@ -23,12 +23,7 @@ global.helpers = {
 
 beforeEach(function () {
   angular.mock.module('til');
-  global.sandbox = sinon.sandbox.create();
   // prevent invariant violations for dispatcher
   // in tests
   global.sandbox.stub(dispatcher, 'waitFor');
-});
-
-afterEach(function () {
-  global.sandbox.restore();
 });
