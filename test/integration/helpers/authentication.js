@@ -1,16 +1,35 @@
 'use strict';
 
-module.exports = {
-  login: function (email, password) {
-    email = email || 'marty@mcfly.com';
-    password = password || 'doesnotmatter';
-    browser.get('/login');
+function login(email, password) {
+  email = email || 'marty@mcfly.com';
+  password = password || 'doesnotmatter';
+  browser.get('/login');
 
-    $('[name="email"]').sendKeys(email);
-    $('[name="password"]').sendKeys(password);
-    $('button[type="submit"]').click();
-  },
-  logout: function () {
-    browser.manage().deleteAllCookies();
-  }
+  $('[name="email"]').sendKeys(email);
+  $('[name="password"]').sendKeys(password);
+  $('button[type="submit"]').click();
+}
+
+function logout() {
+  browser.manage().deleteAllCookies();
+}
+
+function loginBeforeEach() {
+  // protractor uses jasmine (by default)
+  // which does not support a 'before' block
+  // so we dirty check for initialization
+  // https://github.com/angular/protractor/issues/346
+  var loggedIn;
+  beforeEach(function () {
+    if (loggedIn) { return; }
+    loggedIn = true;
+
+    login();
+  });
+}
+
+module.exports = {
+  login: login,
+  logout: logout,
+  loginBeforeEach: loginBeforeEach
 };

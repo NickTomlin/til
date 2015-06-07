@@ -2,3 +2,6 @@ globals:
   browser: true
   $: true
   $$: true
+  element: true
+  by: true
+  protractor: true

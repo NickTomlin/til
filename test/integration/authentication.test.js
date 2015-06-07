@@ -11,17 +11,7 @@ describe('authentication', function () {
   });
 
   describe('with authenticated users', function () {
-    // protractor uses jasmine (by default)
-    // which does not support a 'before' block
-    // so we dirty check for initialization
-    // https://github.com/angular/protractor/issues/346
-    var loggedIn;
-    beforeEach(function () {
-      if (loggedIn) { return; }
-      loggedIn = true;
-
-      authHelper.login();
-    });
+    authHelper.loginBeforeEach();
 
     it('allows a user to access the application', function () {
       browser.get('/');
