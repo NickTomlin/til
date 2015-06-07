@@ -61,6 +61,11 @@ describe('Til Store', function () {
       this.TilStore.handler(events.ADD_TIL, todoCreate);
       expect(this.TilStore.get()[0]).to.have.property('clientId');
     });
+
+    it('adds a timeStamp to new til', function () {
+      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      expect(this.TilStore.get()[0].timestamp).to.be.an.instanceof(Date);
+    });
   });
 
   describe('comments', function () {

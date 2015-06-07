@@ -30,6 +30,12 @@ module.exports = function (UserStore, TilService, uuid) {
       til.comments = [];
     }
 
+    if (til.timestamp) {
+      til.timestamp = new Date(til.timestamp);
+    } else {
+      til.timestamp = new Date();
+    }
+
     if (!til.clientId) {
       til.clientId = uuid();
     }

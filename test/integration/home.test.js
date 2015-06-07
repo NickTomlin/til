@@ -11,7 +11,7 @@ describe('home page', function () {
       .sendKeys(protractor.Key.ENTER);
 
     element.all(by.repeater('til in tils')).then(function (elems) {
-      expect(elems[elems.length - 1].getText()).toMatch(/Integration tests are useful/);
+      expect(elems[0].getText()).toMatch(/Integration tests are useful/);
     });
   });
 
