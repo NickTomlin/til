@@ -7,6 +7,8 @@ describe('Til Service', function () {
     this.$httpBackend = $httpBackend;
     this.serverActionCreators = serverActionCreators;
 
+    sandbox.stub(this.serverActionCreators, 'addTilSuccess');
+
     this.til = {
       text: 'test'
     };

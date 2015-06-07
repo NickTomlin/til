@@ -5,7 +5,7 @@ var Til = require('../../../server/models/til');
 describe('tilModel', function () {
   beforeEach(function () {
     this.validTil = {
-      userId: '1',
+      user: '1',
       text: 'test'
     };
   });

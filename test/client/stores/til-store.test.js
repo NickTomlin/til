@@ -6,7 +6,10 @@ describe('Til Store', function () {
   var todoCreate = {
     type: events.ADD_TIL,
     til: {
-      title: 'My great item'
+      title: 'My great item',
+      user: {
+        _id: 'user-id'
+      }
     }
   };
 

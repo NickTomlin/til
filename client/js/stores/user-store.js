@@ -21,6 +21,14 @@ module.exports = function () {
     },
     handler: function (type, payload) {
       switch (type) {
+        case events.RECEIVE_TIL:
+          var user = payload.til.user;
+          if (user) {
+            add(user);
+            this.emitChange();
+          }
+        break;
+
         case events.AUTHORIZE_SUCCESS:
         case events.ADD_USER:
           log('Add', payload);

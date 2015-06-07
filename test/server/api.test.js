@@ -3,11 +3,15 @@
 var models = require('../../server/models');
 
 describe('api', function () {
-  beforeEach(function () {
+  beforeEach(function (done) {
     this.validTil = {
-      text: '#supertest is a great way to test api endpoints in #express',
-      userId: '1234'
+      text: '#supertest is a great way to test api endpoints in #express'
     };
+
+    models.user.findOne().then(function (user) {
+      this.validTil.user = user._id;
+      done();
+    }.bind(this));
   });
 
   it('provides a way to query any collection', function (done) {
@@ -117,16 +121,28 @@ describe('api', function () {
       .findOne({})
       .exec(function (err, til) {
         request
-        .put('/api/til/comments' )
+        .put('/api/til/comments')
         .send({
           tilId: til._id,
+          userId: til.user,
           text: '#mocha is great'
         })
         .expect(201, function (respError, res) {
+          if (respError) { done(respError); }
+
           expect(JSON.stringify(res.body.til.comments)).to.contain('#mocha is great');
           done();
         });
       });
+    });
+
+    it('includes user information', function (done) {
+      request
+        .get('/api/til')
+        .expect(200, function (respError, res) {
+          expect(res.body.til[0].user).to.have.property('displayName');
+          done();
+        });
     });
 
     it('includes comments in til results', function (done) {

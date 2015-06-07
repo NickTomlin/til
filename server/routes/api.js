@@ -33,6 +33,20 @@ router.param('model', function (req, res, next) {
   next();
 });
 
+// override
+router.get('/til', function (req, res, next) {
+  models.til
+    .find({})
+    .populate('user')
+    .exec(function (err, result) {
+      if (err) { return next(err); }
+      var data = {};
+      data.til = result;
+      res.json(data);
+    });
+});
+
+// generic get for model
 router.get('/:model', function (req, res, next) {
   req.model
     .find({})
@@ -54,11 +68,12 @@ router.put('/til/comments', function (req, res, next) {
     til.comments.push(req.body);
     til.save(function (err, result) {
       if (err) { return next(err); }
+
       res
-      .status(201)
-      .json({
-        til: result
-      });
+        .status(201)
+        .json({
+          til: result
+        });
     });
   });
 });
@@ -73,13 +88,10 @@ router.post('/:model', function (req, res) {
       if (err) {
         logger.info('TIL error %s', err);
         res.status(400);
-        // simulate delay to showcase "optimistic" fallbacks
-        return setTimeout(function () {
-          res.json({
-            errors: err.errors,
-            clientId: req.body.clientId
-          });
-        }, 900);
+        return res.json({
+          errors: err.errors,
+          clientId: req.body.clientId
+        });
       }
 
       if (clientId) {

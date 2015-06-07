@@ -5,6 +5,9 @@ module.exports = function ($http, serverActionCreators) {
 
   this.add = function (til) {
     return $http.post(this._ENDPOINT, til)
+      .then(function (res) {
+        serverActionCreators.addTilSuccess(res.data);
+      })
       .catch(function (res) {
         serverActionCreators.receiveTilError(res.data);
       });

@@ -13,6 +13,14 @@ module.exports = function () {
     });
   };
 
+  this.addTilSuccess = function (body) {
+    log(events.ADD_TIL_SUCCESS, body);
+    dispatcher.dispatch({
+      type: events.ADD_TIL_SUCCESS,
+      til: body.til
+    });
+  };
+
   this.receiveTil = function (til) {
     log(events.RECEIVE_TIL, til);
 

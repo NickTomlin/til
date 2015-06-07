@@ -12,6 +12,10 @@ var comment = new mongoose.Schema({
   text: {
     type: 'String',
     required: true
+  },
+  userId: {
+    type: String,
+    required: true
   }
 });
 
@@ -22,9 +26,10 @@ module.exports = mongoose.model('til', mongoose.Schema({
     validate: [nameValidator, 'Purposefully rejecting because of value {VALUE}.']
   },
   comments: [comment],
-  userId: {
+  user: {
     type: String,
-    required: true
+    required: true,
+    ref: 'user'
   },
   clientId: {
     type: String

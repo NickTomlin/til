@@ -14,15 +14,14 @@ var data = {
   ],
   til: [
     {
-      userId: 'user-id',
-      text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + ='
+      text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + =',
+      comments: []
     },
     {
-      userId: 'user-id',
-      text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates'
+      text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates',
+      comments: []
     },
     {
-      userId: 'user-id-two',
       text: '#mongoose has native es6 support built into version 3.9.X',
       comments: [
         {
@@ -81,7 +80,20 @@ function populate () {
     })
     .then(function () {
       return populateModel('user')
-        .then(function () {
+        .then(function (users) {
+          var userOne = users[0];
+          var userTwo = users[1];
+
+          function assignUser (user, til) {
+            til.user = user._id;
+            til.comments.forEach(function (comment) {
+              comment.userId = user._id;
+            });
+          }
+
+          assignUser(userOne, data.til[0]);
+          data.til.slice(1).forEach(assignUser.bind(null, userTwo));
+
           return populateModel('til');
         });
     });
