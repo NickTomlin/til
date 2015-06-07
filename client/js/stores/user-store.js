@@ -31,7 +31,7 @@ module.exports = function () {
 
         case events.AUTHORIZE_SUCCESS:
         case events.ADD_USER:
-          log('Add', payload);
+          log('Add/Authorize', payload);
           add(payload.user);
           this.emitChange();
         break;

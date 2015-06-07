@@ -21,7 +21,7 @@ module.exports = function () {
     handler: function (type, payload) {
       switch (type) {
         case events.AUTHORIZE_SUCCESS:
-          log('Login', payload);
+          log(events.AUTHORIZE_SUCCESS, payload);
           login(payload.user);
           this.emitChange();
         break;

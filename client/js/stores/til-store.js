@@ -68,7 +68,7 @@ module.exports = function (UserStore, TilService, uuid) {
     handler: function (type, payload) {
       switch (type) {
         case events.RECEIVE_TIL_ERROR:
-          log('til error', payload);
+          log(events.RECEIVE_TIL_ERROR, payload);
           this.waitFor(UserStore.dispatchToken);
           addErrors(payload);
           this.emitChange();
@@ -81,21 +81,21 @@ module.exports = function (UserStore, TilService, uuid) {
         break;
 
         case events.ADD_COMMENT:
-          log('add commment', payload);
+          log(events.ADD_COMMENT, payload);
           var storedComment = addCommentToTil(payload.comment);
           saveComment(storedComment);
           this.emitChange();
         break;
 
         case events.RECEIVE_TIL:
-          log('receive', payload);
+          log(events.RECEIVE_TIL, payload);
           this.waitFor(UserStore.dispatchToken);
           addTilToItems(payload.til);
           this.emitChange();
         break;
 
         case events.ADD_TIL:
-          log('add', payload);
+          log(events.ADD_TIL, payload);
           this.waitFor(UserStore.dispatchToken);
           var storedTil = addTilToItems(payload.til);
           saveTil(storedTil);
