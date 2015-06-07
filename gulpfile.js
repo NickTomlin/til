@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 var gulp = require('gulp');
 var browserify = require('browserify');
 var util = require('gulp-util');
@@ -14,6 +16,13 @@ var MANIFEST = {
     clientAll: 'client/js/**/*.js',
     serverAll: 'server/**/*.js',
     spec: 'test/**/*.js'
+  },
+  css: {
+    main: './client/css/app.css',
+    vendor: './node_modules/bootstrap/dist/css/{bootstrap,bootstrap-theme}.{css,map}'
+  },
+  images: {
+    all: './client/img/**/*'
   },
   templates: {
     all: 'client/js/**/*.html'
@@ -48,11 +57,15 @@ function buildScript (src, watch) {
 gulp.task('dev', function () {
   nodemon({
     script: 'bin/www',
-    ext: 'js html jade',
+    ext: 'js',
     watch: 'server'
   });
   gulp.watch([MANIFEST.js.clientAll, MANIFEST.js.serverAll, MANIFEST.js.spec], ['lint']);
+
+  gulp.watch([MANIFEST.images.all], ['assets']);
+  gulp.watch([MANIFEST.css.main], ['css']);
   gulp.watch([MANIFEST.templates.all], ['templates']);
+
   buildScript(MANIFEST.js.clientMain, true);
 });
 
@@ -69,9 +82,14 @@ gulp.task('templates', function () {
     .pipe(gulp.dest('./dist/templates'));
 });
 
+gulp.task('assets', function () {
+  gulp.src(MANIFEST.images.all)
+    .pipe(gulp.dest('./dist/img'));
+});
+
 gulp.task('css', function () {
-  return gulp.src('./node_modules/bootstrap/dist/css/{bootstrap,bootstrap-theme}.{css,map}')
-  .pipe(gulp.dest('./dist/css'));
+  return gulp.src([MANIFEST.css.main, MANIFEST.css.vendor])
+    .pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('build', ['templates', 'css', 'js']);

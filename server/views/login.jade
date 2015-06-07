@@ -1,23 +1,28 @@
 extends layout
 
 block content
-  h1 login
+  h1 Log In
 
   if messages
     ul
       for message in messages
         li=message
 
-  h2 Github
-  a(href="/auth/github") Login With Github
+  p
+    a(href="/auth/github").login-item
+      img(src="/img/github.svg")
+      | With Github
 
   h2 Basic Auth
-    form(method="post" action="/auth/basic" enctype="application/x-www-form-urlencoded")
-      label(for=email)
+
+  form(method="post" action="/auth/basic" enctype="application/x-www-form-urlencoded").form-inline
+    .form-group
+      label(for="email")
         | email: 
-        input(name="email")
+        input(name="email").form-control
+    .form-group
       label(for=password)
         | password: 
-        input(name="password" type="text")
+        input(name="password" type="text").form-control
 
-      button(type="submit") Login
+      button(type="submit" class="btn btn-primary") Login
