@@ -11,7 +11,7 @@
     "test": "npm run lint && npm run test:client && npm run test:server && npm run test:integration",
     "test:client": "./node_modules/karma/bin/karma start karma.conf.js --single-run=true",
     "test:server": "mocha",
-    "test:integration": "protractor protractor.conf.js"
+    "test:integration": "npm run db:seed && protractor protractor.conf.js"
   },
   "repository": {
     "type": "git",

@@ -14,4 +14,13 @@ describe('home page', function () {
       expect(elems[elems.length - 1].getText()).toMatch(/Integration tests are useful/);
     });
   });
+
+  it('allows users to comment on tils', function () {
+    element.all(by.repeater('til in tils')).last()
+      .element(by.tagName('input'))
+      .sendKeys('This is a test comment')
+      .sendKeys(protractor.Key.ENTER);
+
+    expect(element(by.cssContainingText('p', 'This is a test comment')).isPresent()).toBe(true);
+  });
 });
