@@ -25,6 +25,7 @@ module.exports = mongoose.model('til', mongoose.Schema({
     required: true,
     validate: [nameValidator, 'Purposefully rejecting because of value {VALUE}.']
   },
+  timestamp: {type: Date, default: Date.now},
   comments: [comment],
   user: {
     type: String,

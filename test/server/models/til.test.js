@@ -20,4 +20,10 @@ describe('tilModel', function () {
   it('allows creation of valid til', function (done) {
     new Til(this.validTil).validate(done);
   });
+
+  it('has a timestamp', function () {
+    var til = new Til(this.validTil);
+
+    expect(til.timestamp).to.be.an.instanceof(Date);
+  });
 });
