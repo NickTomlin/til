@@ -21,13 +21,11 @@ module.exports = function () {
     });
   };
 
-  this.receiveTil = function (til) {
-    log(events.RECEIVE_TIL, til);
+  this.receiveTils = function (data) {
+    log(events.RECEIVE_TILS, data);
 
-    dispatcher.dispatch({
-      type: events.RECEIVE_TIL,
-      til: til
-    });
+    data.type = events.RECEIVE_TILS;
+    dispatcher.dispatch(data);
   };
 
   this.receiveUser = function (user) {
@@ -53,9 +51,9 @@ module.exports = function () {
     });
   };
 
-  this.receiveTilError = function (body) {
+  this.receiveTilsError = function (body) {
     dispatcher.dispatch({
-      type: events.RECEIVE_TIL_ERROR,
+      type: events.RECEIVE_TILS_ERROR,
       errors: body.errors,
       clientId: body.clientId
     });

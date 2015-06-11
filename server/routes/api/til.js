@@ -8,10 +8,22 @@ router.get('/', function (req, res, next) {
   Til
     .find({})
     .populate('user')
+    .lean()
     .exec(function (err, result) {
       if (err) { return next(err); }
-      var data = {};
-      data.til = result;
+      // the client side expects all discrete objects
+      // to exist on the top level of the payload
+      var data = result.reduce(function (results, til) {
+        results.user.push(til.user);
+        til.userId = til.user._id;
+        delete til.user;
+        results.til.push(til);
+        return results;
+      }, {
+        til: [],
+        user: []
+      });
+
       res.json(data);
     });
 });

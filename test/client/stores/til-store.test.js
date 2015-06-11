@@ -66,6 +66,22 @@ describe('Til Store', function () {
       this.TilStore.handler(events.ADD_TIL, todoCreate);
       expect(this.TilStore.get()[0].timestamp).to.be.an.instanceof(Date);
     });
+
+    describe('receive tisl', function () {
+      beforeEach(function () {
+        this.payload = {
+          til: [
+          {text: 'test', userId: 'foo'},
+          {text: 'test2', userId: 'foo'}
+        ],
+        user: [{_id: 'foo'}]};
+      });
+
+      it('adds multiple tils', function () {
+        this.TilStore.handler(events.RECEIVE_TILS, this.payload);
+        expect(this.TilStore.get()).to.have.length(1);
+      });
+    });
   });
 
   describe('comments', function () {
@@ -98,7 +114,7 @@ describe('Til Store', function () {
   describe('error handling', function () {
     it('marks tils with error', function () {
       this.TilStore.handler(events.ADD_TIL, todoCreate);
-      this.TilStore.handler(events.RECEIVE_TIL_ERROR, tilError);
+      this.TilStore.handler(events.RECEIVE_TILS_ERROR, tilError);
       expect(this.TilStore.get()[0]).to.have.property('errors');
     });
   });

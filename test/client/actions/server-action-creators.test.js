@@ -10,20 +10,22 @@ describe('serverActionCreators', function () {
     sandbox.spy(dispatcher, 'dispatch');
   }));
 
-  describe('receiveTIL', function () {
+  describe('receiveTILS', function () {
     beforeEach(function () {
-      this.til = {
-        text: 'test'
+      this.payload = {
+        type: events.RECEIVE_TILS,
+        til: [
+          {
+            text: 'test'
+          }
+        ],
+        user: []
       };
     });
 
     it('dispatches new til', function() {
-      this.serverActionCreators.receiveTil(this.til);
-
-      expect(dispatcher.dispatch).to.have.been.calledWith({
-        type: events.RECEIVE_TIL,
-        til: this.til
-      });
+      this.serverActionCreators.receiveTils(this.payload);
+      expect(dispatcher.dispatch).to.have.been.calledWith(this.payload);
     });
   });
 

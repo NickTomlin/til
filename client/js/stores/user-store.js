@@ -21,10 +21,10 @@ module.exports = function () {
     },
     handler: function (type, payload) {
       switch (type) {
-        case events.RECEIVE_TIL:
-          var user = payload.til.user;
+        case events.RECEIVE_TILS:
+          var user = payload.user;
           if (user) {
-            add(user);
+            payload.user.forEach(add);
             this.emitChange();
           }
         break;

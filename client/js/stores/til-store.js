@@ -41,7 +41,7 @@ module.exports = function (UserStore, TilService, uuid) {
     }
 
     til.comments.forEach(getUserDataForComment);
-    til.user = UserStore.get(til.user._id);
+    til.user = UserStore.get(til.userId);
     return til;
   }
 
@@ -73,7 +73,7 @@ module.exports = function (UserStore, TilService, uuid) {
     },
     handler: function (type, payload) {
       switch (type) {
-        case events.RECEIVE_TIL_ERROR:
+        case events.RECEIVE_TILS_ERROR:
           log(events.RECEIVE_TIL_ERROR, payload);
           this.waitFor(UserStore.dispatchToken);
           addErrors(payload);
@@ -93,10 +93,10 @@ module.exports = function (UserStore, TilService, uuid) {
           this.emitChange();
         break;
 
-        case events.RECEIVE_TIL:
-          log(events.RECEIVE_TIL, payload);
+        case events.RECEIVE_TILS:
+          log(events.RECEIVE_TILS, payload);
           this.waitFor(UserStore.dispatchToken);
-          addTilToItems(payload.til);
+          payload.til.forEach(addTilToItems);
           this.emitChange();
         break;
 

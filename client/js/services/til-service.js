@@ -9,7 +9,7 @@ module.exports = function ($http, serverActionCreators) {
         serverActionCreators.addTilSuccess(res.data);
       })
       .catch(function (res) {
-        serverActionCreators.receiveTilError(res.data);
+        serverActionCreators.receiveTilsError(res.data);
       });
   };
 
@@ -19,9 +19,7 @@ module.exports = function ($http, serverActionCreators) {
 
   this.getAll = function () {
     return $http.get(this._ENDPOINT).then(function (res) {
-      res.data.til.forEach(function (til) {
-        serverActionCreators.receiveTil(til);
-      });
+      serverActionCreators.receiveTils(res.data);
     });
   };
 };

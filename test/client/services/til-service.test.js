@@ -27,14 +27,14 @@ describe('Til Service', function () {
     });
 
     it('triggers a server action when adding fails', function () {
-      sandbox.stub(this.serverActionCreators, 'receiveTilError');
+      sandbox.stub(this.serverActionCreators, 'receiveTilsError');
       var data = {errors: ['error']};
       this.$httpBackend.whenPOST(this.TilService._ENDPOINT).respond(401, data);
 
       this.TilService.add(this.til);
       this.$httpBackend.flush();
 
-      expect(this.serverActionCreators.receiveTilError).to.have.been.calledWith(data);
+      expect(this.serverActionCreators.receiveTilsError).to.have.been.calledWith(data);
     });
   });
 });

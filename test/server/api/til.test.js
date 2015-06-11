@@ -49,11 +49,20 @@ describe('Tils', function () {
       });
   });
 
-  it('includes user information', function (done) {
+  it('includes til users on top level of response', function (done) {
     request
       .get('/api/til')
       .expect(200, function (respError, res) {
-        expect(res.body.til[0].user).to.have.property('displayName');
+        expect(res.body.user[0]).to.have.property('displayName');
+        done();
+      });
+  });
+
+  it('includes a userId on til', function (done) {
+    request
+      .get('/api/til')
+      .expect(200, function (respError, res) {
+        expect(res.body.til[0]).to.have.property('userId');
         done();
       });
   });
