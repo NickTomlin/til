@@ -2,7 +2,7 @@
 
 var store = require('../lib/base-store');
 var events = require('../constants').events;
-var log = require('../lib/log')('stores:user-store');
+var log = require('../lib/log')('stores:auth-store');
 
 module.exports = function () {
   var _auth = {user: {}};
