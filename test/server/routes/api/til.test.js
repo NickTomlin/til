@@ -1,6 +1,6 @@
 'use strict';
 
-var models = require('../../../server/models');
+var models = require('../../../../server/models');
 
 describe('Tils', function () {
   beforeEach(function (done) {
