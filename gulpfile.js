@@ -14,6 +14,7 @@ var MANIFEST = {
   js: {
     clientMain: './client/js/app.js',
     clientAll: 'client/js/**/*.js',
+    clientVendor: ['angular', 'debug'],
     serverAll: 'server/**/*.js',
     spec: 'test/**/*.js'
   },
@@ -32,6 +33,7 @@ var MANIFEST = {
 function buildScript (src, watch) {
   var props = watchify.args;
   props.entries = [src];
+  props.external = MANIFEST.js.clientVendor;
   var bundler = watch ? watchify(browserify(props)) : browserify(props);
 
   function rebundle () {
@@ -54,6 +56,13 @@ function buildScript (src, watch) {
   return rebundle();
 }
 
+function buildVendor () {
+  return browserify()
+          .require(MANIFEST.js.clientVendor)
+          .bundle()
+          .pipe(source('vendor.js'))
+}
+
 gulp.task('dev', function () {
   nodemon({
     script: 'bin/www',
@@ -71,6 +80,11 @@ gulp.task('dev', function () {
 
 gulp.task('js', function () {
   return buildScript(MANIFEST.js.clientMain);
+});
+
+gulp.task('js:vendor', function () {
+  return buildVendor()
+          .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('lint', shell.task([
@@ -92,5 +106,5 @@ gulp.task('css', function () {
     .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('build', ['templates', 'css', 'js']);
+gulp.task('build', ['templates', 'css', 'js:vendor', 'js']);
 gulp.task('default', ['dev']);
