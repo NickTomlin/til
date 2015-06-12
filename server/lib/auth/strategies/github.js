@@ -12,6 +12,7 @@ function githubAuthHandler(accessToken, refreshToken, profile, done) {
     {authorizations: {$elemMatch: {uuid: profile.id}}},
     {
       $setOnInsert: {
+        username: profile.username.toLowerCase(),
         authorizations: [{name: 'Github', uuid: profile.id}]
       },
       $set: {
