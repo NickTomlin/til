@@ -1,6 +1,7 @@
 'use strict';
 
 var store = require('../lib/base-store');
+var _ = require('lodash');
 var events = require('../constants').events;
 var log = require('../lib/log')('stores:til-store');
 
@@ -42,6 +43,7 @@ module.exports = function (UserStore, TilService, uuid) {
 
     til.comments.forEach(getUserDataForComment);
     til.user = UserStore.get(til.userId);
+
     return til;
   }
 
@@ -69,6 +71,11 @@ module.exports = function (UserStore, TilService, uuid) {
     get: function () {
       return Object.keys(_items).map(function (key) {
         return _items[key];
+      });
+    },
+    getTilsForUser: function (userId) {
+      return _.filter(_items, function (item) {
+        return item.user._id === userId
       });
     },
     handler: function (type, payload) {

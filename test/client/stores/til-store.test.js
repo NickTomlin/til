@@ -3,12 +3,26 @@
 var events = require('til/constants').events;
 var _ = require('lodash');
 
-describe.only('Til Store', function () {
-
-
-  beforeEach(inject(function (_TilStore_, _TilService_) {
+describe('Til Store', function () {
+  beforeEach(inject(function (_TilStore_, _TilService_, _UserStore_) {
     this.TilStore = _TilStore_;
     this.TilService = _TilService_;
+    this.UserStore = _UserStore_;
+
+    this.users = {
+      'my-user-id': {
+        displayName: 'my-user',
+        _id: 'my-user-id'
+      },
+      'not-user-id': {
+        displayName: 'not-user',
+        _id: 'not-user-id'
+      }
+    };
+
+    sandbox.stub(this.UserStore, 'get', function (id) {
+      return this.users[id];
+    }.bind(this));
 
     sandbox.stub(this.TilService, 'add');
     this.til = {
@@ -20,9 +34,7 @@ describe.only('Til Store', function () {
         type: events.ADD_TIL,
         til: {
           title: 'My great item',
-          user: {
-            _id: 'user-id'
-          }
+          userId: 'my-user-id'
         }
       }, properties || {});
 
@@ -30,6 +42,18 @@ describe.only('Til Store', function () {
       return this.TilStore.get()[0];
     }
   }));
+
+  describe('getTilsForUser()', function () {
+    it('returns the tils for a user', function () {
+      this.addTil();
+      this.addTil();
+      this.addTil({
+        til: {userId: 'not-user-id'}
+      });
+
+      expect(this.TilStore.getTilsForUser('my-user-id').length).to.eql(2);
+    });
+  });
 
   describe('tils', function () {
     it('adds an item', function () {
