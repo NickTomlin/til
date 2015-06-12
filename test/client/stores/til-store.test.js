@@ -1,73 +1,60 @@
 'use strict';
 
 var events = require('til/constants').events;
+var _ = require('lodash');
 
-describe('Til Store', function () {
-  var todoCreate = {
-    type: events.ADD_TIL,
-    til: {
-      title: 'My great item',
-      user: {
-        _id: 'user-id'
-      }
-    }
-  };
+describe.only('Til Store', function () {
 
-  var tilError = {
-    clientId: 'stubbed-client-id',
-    errors: {
-      text: {
-        message: 'Invalid reason'
-      }
-    }
-  };
-
-  beforeEach(angular.mock.module(function ($provide) {
-    $provide.service('uuid', function () {
-      return function () {
-        return 'stubbed-client-id';
-      };
-    });
-  }));
 
   beforeEach(inject(function (_TilStore_, _TilService_) {
     this.TilStore = _TilStore_;
     this.TilService = _TilService_;
 
     sandbox.stub(this.TilService, 'add');
-  }));
-
-  beforeEach(function () {
     this.til = {
       text: 'test'
     };
-  });
+
+    this.addTil = function (properties) {
+      var tilProps = _.merge({}, {
+        type: events.ADD_TIL,
+        til: {
+          title: 'My great item',
+          user: {
+            _id: 'user-id'
+          }
+        }
+      }, properties || {});
+
+      this.TilStore.handler(tilProps.type, tilProps);
+      return this.TilStore.get()[0];
+    }
+  }));
 
   describe('tils', function () {
     it('adds an item', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.addTil();
       expect(this.TilStore.get()).to.have.length(1);
     });
 
     it('makes a server side call to create the til', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
-
+      this.addTil();
       expect(this.TilService.add).to.have.been.calledWithMatch({
-        title: todoCreate.til.title
+        title: 'My great item'
       });
     });
 
     it('adds a clientId to new til', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.addTil();
       expect(this.TilStore.get()[0]).to.have.property('clientId');
     });
 
     it('adds a timeStamp to new til', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.addTil();
       expect(this.TilStore.get()[0].timestamp).to.be.an.instanceof(Date);
     });
 
-    describe('receive tisl', function () {
+    describe('receive tils', function () {
       beforeEach(function () {
         this.payload = {
           til: [
@@ -79,17 +66,17 @@ describe('Til Store', function () {
 
       it('adds multiple tils', function () {
         this.TilStore.handler(events.RECEIVE_TILS, this.payload);
-        expect(this.TilStore.get()).to.have.length(1);
+        expect(this.TilStore.get()).to.have.length(2);
       });
     });
   });
 
   describe('comments', function () {
     beforeEach(function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
+      this.addTil();
       this.commentCreatePayload = {
         comment: {
-          tilClientId: 'stubbed-client-id'
+          tilClientId: this.TilStore.get()[0].clientId
         }
       };
     });
@@ -106,15 +93,25 @@ describe('Til Store', function () {
     });
 
     it('adds a clientId to new til', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
       expect(this.TilStore.get()[0]).to.have.property('clientId');
     });
   });
 
   describe('error handling', function () {
+    beforeEach(function () {
+      this.tilError = {
+        errors: {
+          text: {
+            message: 'Invalid reason'
+          }
+        }
+      };
+    });
+
     it('marks tils with error', function () {
-      this.TilStore.handler(events.ADD_TIL, todoCreate);
-      this.TilStore.handler(events.RECEIVE_TILS_ERROR, tilError);
+      this.addTil();
+      this.tilError.clientId = this.TilStore.get()[0].clientId;
+      this.TilStore.handler(events.RECEIVE_TILS_ERROR, this.tilError);
       expect(this.TilStore.get()[0]).to.have.property('errors');
     });
   });
