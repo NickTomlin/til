@@ -74,7 +74,7 @@ module.exports = function (UserStore, TilService, uuid) {
     handler: function (type, payload) {
       switch (type) {
         case events.RECEIVE_TILS_ERROR:
-          log(events.RECEIVE_TIL_ERROR, payload);
+          log(events.RECEIVE_TILS_ERROR, payload);
           this.waitFor(UserStore.dispatchToken);
           addErrors(payload);
           this.emitChange();
