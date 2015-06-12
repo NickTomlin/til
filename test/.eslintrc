@@ -18,3 +18,4 @@ rules:
   # because of chai
   no-unused-expressions: [0]
   mocha/no-exclusive-tests: 2
+  no-undefined: 0
