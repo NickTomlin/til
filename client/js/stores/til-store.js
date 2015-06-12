@@ -75,7 +75,7 @@ module.exports = function (UserStore, TilService, uuid) {
     },
     getTilsForUser: function (userId) {
       return _.filter(_items, function (item) {
-        return item.user._id === userId
+        return item.user._id === userId;
       });
     },
     handler: function (type, payload) {

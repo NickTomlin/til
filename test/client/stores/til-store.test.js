@@ -40,7 +40,7 @@ describe('Til Store', function () {
 
       this.TilStore.handler(tilProps.type, tilProps);
       return this.TilStore.get()[0];
-    }
+    };
   }));
 
   describe('getTilsForUser()', function () {

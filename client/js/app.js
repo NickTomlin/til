@@ -23,6 +23,7 @@ tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
 tilApp.controller('HomeController', require('./pages/home'));
 tilApp.controller('SettingsController', require('./pages/settings'));
+tilApp.controller('UserFeedController', require('./pages/userfeed'));
 
 tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   $urlRouterProvider.otherwise('');
@@ -43,6 +44,11 @@ tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
       url: '/settings',
       controller: 'SettingsController',
       templateUrl: 'templates/pages/settings/settings.template.html'
+    })
+    .state('userfeed', {
+      url: '/:username',
+      controller: 'UserFeedController',
+      templateUrl: 'templates/pages/userfeed/userfeed.template.html'
     });
 });
 
