@@ -10,6 +10,7 @@ tilApp.directive('tilList', require('./components/til-list'));
 
 tilApp.service('clientActionCreators', require('./actions/client-action-creators'));
 tilApp.service('serverActionCreators', require('./actions/server-action-creators'));
+tilApp.directive('siteNavigation', require('./components/navigation'));
 
 tilApp.service('TilService', require('./services/til-service'));
 tilApp.service('UserService', require('./services/user-service'));
