@@ -18,12 +18,12 @@ exports.config = {
 
   framework: 'jasmine',
 
-  allScriptsTimeout: 20000,
+  allScriptsTimeout: 10000,
 
-  getPageTimeout: 20000,
+  getPageTimeout: 3000,
 
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 360000
+    defaultTimeoutInterval: 5000
   },
 
   onPrepare: function() {}
