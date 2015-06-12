@@ -60,7 +60,7 @@ function buildVendor () {
   return browserify()
           .require(MANIFEST.js.clientVendor)
           .bundle()
-          .pipe(source('vendor.js'))
+          .pipe(source('vendor.js'));
 }
 
 gulp.task('dev', function () {
