@@ -10,9 +10,7 @@ module.exports = function (clientActionCreators, AuthenticationStore) {
           var input = $event.target;
           clientActionCreators.addTIL({
             text: input.value,
-            user: {
-              _id: AuthenticationStore.getCurrentUserId()
-            }
+            userId: AuthenticationStore.getCurrentUserId()
           });
           input.value = '';
         }
