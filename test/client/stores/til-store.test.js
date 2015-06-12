@@ -33,13 +33,12 @@ describe('Til Store', function () {
       var tilProps = _.merge({}, {
         type: events.ADD_TIL,
         til: {
-          title: 'My great item',
+          text: 'My great item',
           userId: 'my-user-id'
         }
       }, properties || {});
 
       this.TilStore.handler(tilProps.type, tilProps);
-      return this.TilStore.get()[0];
     };
   }));
 
@@ -64,7 +63,7 @@ describe('Til Store', function () {
     it('makes a server side call to create the til', function () {
       this.addTil();
       expect(this.TilService.add).to.have.been.calledWithMatch({
-        title: 'My great item'
+        text: 'My great item'
       });
     });
 
@@ -82,8 +81,8 @@ describe('Til Store', function () {
       beforeEach(function () {
         this.payload = {
           til: [
-          {text: 'test', userId: 'foo'},
-          {text: 'test2', userId: 'foo'}
+          {_id: 'server-id-one', text: 'test', userId: 'my-user-id'},
+          {_id: 'server-id-two', text: 'test2', userId: 'my-user-id'}
         ],
         user: [{_id: 'foo'}]};
       });
@@ -91,6 +90,32 @@ describe('Til Store', function () {
       it('adds multiple tils', function () {
         this.TilStore.handler(events.RECEIVE_TILS, this.payload);
         expect(this.TilStore.get()).to.have.length(2);
+      });
+
+      it('replaces existing tils, instead of adding new ones', function () {
+        this.addTil();
+        var successfulTil = _.merge({}, this.TilStore.get()[0], {_id: 'server-id-three'});
+        this.TilStore.handler(events.ADD_TIL_SUCCESS, {til: successfulTil});
+
+        this.payload.til[0] = _.omit(successfulTil, 'clientId');
+        this.TilStore.handler(events.RECEIVE_TILS, this.payload);
+
+        expect(this.TilStore.get()).to.have.length(2);
+      });
+    });
+
+    describe('ADD_TIL_SUCCESS', function () {
+      it('replaces existing tils, instead of adding new ones', function () {
+        this.addTil();
+        var addedTil = this.TilStore.get()[0];
+
+        this.TilStore.handler(events.ADD_TIL_SUCCESS, {
+          til: _.extend({}, addedTil, {
+            _id: 'server-side-id'
+          })
+        });
+
+        expect(this.TilStore.get()[0]._id).to.eql('server-side-id');
       });
     });
   });

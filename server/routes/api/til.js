@@ -49,28 +49,30 @@ router.put('/comments', function (req, res, next) {
 });
 
 router.post('/', function (req, res) {
-  var clientId = req.body.til && req.body.til.clientId;
+  var clientId = req.body.clientId;
 
   new Til(req.body)
-    .save(function (err, result) {
-      var resp = {};
+    .save(function (err, document) {
+      var til;
       if (err) {
         logger.info('TIL error %s', err);
         res.status(400);
         return res.json({
           errors: err.errors,
-          clientId: req.body.clientId
+          clientId: clientId
         });
       }
 
+      til = document.toObject();
       if (clientId) {
-        result.clientId = clientId;
+        til.clientId = clientId;
       }
-
-      resp.til = result;
+      til.userId = til.user;
 
       res.status(201);
-      res.json(resp);
+      res.json({
+        til: til
+      });
     });
 });
 

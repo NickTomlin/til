@@ -7,6 +7,7 @@ var log = require('../lib/log')('stores:til-store');
 
 module.exports = function (UserStore, TilService, uuid) {
   var _items = {};
+  var _serverToClientMap = {};
 
   function getUserDataForComment (comment) {
     comment.user = UserStore.get(comment.userId);
@@ -37,25 +38,34 @@ module.exports = function (UserStore, TilService, uuid) {
       til.timestamp = new Date();
     }
 
-    if (!til.clientId) {
-      til.clientId = uuid();
-    }
-
     til.comments.forEach(getUserDataForComment);
     til.user = UserStore.get(til.userId);
 
     return til;
   }
 
-  function addTilToItems (tilItem) {
-    var til = prepareTil(tilItem);
+  function addTilOnClient(til) {
+    til.clientId = uuid();
+    prepareTil(til);
     _items[til.clientId] = til;
-
-    return til;
+    TilService.add(til);
   }
 
-  function saveTil (til) {
-    TilService.add(til);
+  function receiveTilFromServer(til) {
+    prepareTil(til);
+
+    if (til.clientId) {
+      _serverToClientMap[til._id] = til.clientId;
+      _items[til.clientId] = til;
+    } else if (_serverToClientMap[til._id]) {
+      var clientId = _serverToClientMap[til._id];
+      til.clientId = clientId;
+      _items[clientId] = til;
+    } else {
+      til.clientId = til._id;
+      _serverToClientMap[til._id] = til.clientId;
+      _items[til.clientId] = til;
+    }
   }
 
   function saveComment (comment) {
@@ -69,9 +79,7 @@ module.exports = function (UserStore, TilService, uuid) {
 
   var tilStore = store({
     get: function () {
-      return Object.keys(_items).map(function (key) {
-        return _items[key];
-      });
+      return _.values(_items);
     },
     getTilsForUser: function (userId) {
       return _.filter(_items, function (item) {
@@ -89,7 +97,7 @@ module.exports = function (UserStore, TilService, uuid) {
 
         case events.ADD_TIL_SUCCESS:
           log(events.ADD_TIL_SUCCESS, payload);
-          _items[payload.til.clientId]._id = payload.til._id;
+          receiveTilFromServer(payload.til);
           this.emitChange();
         break;
 
@@ -103,15 +111,14 @@ module.exports = function (UserStore, TilService, uuid) {
         case events.RECEIVE_TILS:
           log(events.RECEIVE_TILS, payload);
           this.waitFor(UserStore.dispatchToken);
-          payload.til.forEach(addTilToItems);
+          payload.til.forEach(receiveTilFromServer);
           this.emitChange();
         break;
 
         case events.ADD_TIL:
           log(events.ADD_TIL, payload);
           this.waitFor(UserStore.dispatchToken);
-          var storedTil = addTilToItems(payload.til);
-          saveTil(storedTil);
+          addTilOnClient(payload.til);
           this.emitChange();
         break;
 

@@ -31,8 +31,5 @@ module.exports = mongoose.model('til', mongoose.Schema({
     type: String,
     required: true,
     ref: 'user'
-  },
-  clientId: {
-    type: String
   }
 }));

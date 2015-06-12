@@ -29,6 +29,25 @@ describe('Tils', function () {
       }.bind(this));
   });
 
+  it('does not persist clientId to DB', function (done) {
+    this.validTil.clientId = 'myClientId';
+
+    request
+      .post('/api/til')
+      .send(this.validTil)
+      .expect(201)
+      .end(function (err, res) {
+        if (err) { done(err); }
+        models.til
+          .findOne({_id: res.body.til._id})
+          .exec(function (findErr, savedTil) {
+            if (err) { done(err); }
+            expect(savedTil).to.not.have.property('clientId');
+            done();
+          });
+      });
+  });
+
   it('adds comments to a til', function (done) {
     models.til
       .findOne({})
