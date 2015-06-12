@@ -7,6 +7,7 @@ var tilApp = angular.module('til', [require('angular-ui-router')]);
 
 tilApp.directive('createTil', require('./components/create-til'));
 tilApp.directive('tilList', require('./components/til-list'));
+tilApp.directive('userLink', require('./components/user-link'));
 
 tilApp.service('clientActionCreators', require('./actions/client-action-creators'));
 tilApp.service('serverActionCreators', require('./actions/server-action-creators'));
