@@ -2,6 +2,7 @@
 
 var store = require('../lib/base-store');
 var events = require('../constants').events;
+var _ = require('lodash');
 var log = require('../lib/log')('stores:user-store');
 
 module.exports = function () {
@@ -16,8 +17,11 @@ module.exports = function () {
     get: function (_id) {
       return _users[_id] || {};
     },
+    getByDisplayName: function (displayName) {
+      return _.where(_users, {displayName: displayName})[0];
+    },
     all: function () {
-      return _users;
+      return _.values(_users);
     },
     handler: function (type, payload) {
       switch (type) {
