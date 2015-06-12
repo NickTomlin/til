@@ -1,9 +1,9 @@
 'use strict';
 
-require('angular');
+global.angular = require('angular'); // attach for integration tests
 global.debug = require('debug');
 global.debug.enable('*');
-var tilApp = angular.module('til', []);
+var tilApp = angular.module('til', [require('angular-ui-router')]);
 
 tilApp.directive('createTil', require('./components/create-til'));
 tilApp.directive('tilList', require('./components/til-list'));
@@ -19,11 +19,35 @@ tilApp.service('TilStore', require('./stores/til-store'));
 tilApp.service('UserStore', require('./stores/user-store'));
 tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
-tilApp.controller('index', require('./pages/index'));
+tilApp.controller('HomeController', require('./pages/home'));
+tilApp.controller('UserController', require('./pages/user'));
+
+tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+  $urlRouterProvider.otherwise('');
+
+  $locationProvider
+    .html5Mode({enabled: true, requireBase: false});
+
+  // we register "pages" here for simplicity's sake
+  // eventually, we may need to move these out into their own
+  // modules to keep things maintainable.
+  $stateProvider
+    .state('home', {
+      url: '/',
+      controller: 'HomeController',
+      templateUrl: 'templates/pages/home/home.template.html'
+    })
+    .state('userProfile', {
+      url: '/:username',
+      controller: 'UserController'
+    });
+});
 
 // <BEWARE>
 // we need to initialize our stores
-// so they are ready for dispatched payloads, like the result of authorizing
+// so they are ready for dispatched payloads, like the result of authorizing.
+//
+// this means injecting them but not actually using them :|
 // </BEWARE>
 tilApp.run(function (TilService, AuthenticationStore, UserStore, UserService) {
   // this is kinda BS, and should be done in a controller

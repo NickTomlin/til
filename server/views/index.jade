@@ -1,11 +1,4 @@
 extends layout
 
 block content
-  section(ng-controller='index')
-      .row
-          .well.col-sm-4.col-md-3
-            form(ng-submit='addTil($event)')
-              .input-group
-                create-til
-          .col-sm-8.col-md-5
-            til-list(tils='tils')
+  section(ui-view)
