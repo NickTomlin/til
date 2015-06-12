@@ -1,6 +1,8 @@
 'use strict';
 
+
 function login(email, password) {
+  browser.ignoreSynchronization = true;
   email = email || 'marty@mcfly.com';
   password = password || 'doesnotmatter';
   browser.get('/login');
@@ -8,6 +10,7 @@ function login(email, password) {
   $('[name="email"]').sendKeys(email);
   $('[name="password"]').sendKeys(password);
   $('button[type="submit"]').click();
+  browser.ignoreSynchronization = false;
 }
 
 function logout() {
