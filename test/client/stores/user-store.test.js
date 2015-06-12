@@ -5,18 +5,18 @@ var events = require('til/constants').events;
 describe('User Store', function () {
   beforeEach(inject(function (_UserStore_) {
     this.UserStore = _UserStore_;
-    this.addUserPayload = {user: {_id: 1, displayName: 'Marty Mcfly'}};
+    this.addUserPayload = {user: {_id: 1, displayName: 'Marty Mcfly', username: 'martymcfly'}};
   }));
 
   describe('methods', function () {
-    describe('getByDisplayName', function () {
+    describe('getByUsername', function () {
       it('returns a user', function () {
         this.UserStore.handler(events.ADD_USER, this.addUserPayload);
-        expect(this.UserStore.getByDisplayName('Marty Mcfly')).to.have.property('_id');
+        expect(this.UserStore.getByUsername('martymcfly')._id).to.eql(1);
       });
 
-      it('returns undefined if displayName does not match user', function () {
-        expect(this.UserStore.getByDisplayName('James Brown')).to.eql(undefined);
+      it('returns undefined if username does not match user', function () {
+        expect(this.UserStore.getByUsername('James Brown')).to.eql(undefined);
       });
     });
   });

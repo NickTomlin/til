@@ -17,8 +17,8 @@ module.exports = function () {
     get: function (_id) {
       return _users[_id] || {};
     },
-    getByDisplayName: function (displayName) {
-      return _.where(_users, {displayName: displayName})[0];
+    getByUsername: function (username) {
+      return _.where(_users, {username: username})[0];
     },
     all: function () {
       return _.values(_users);
