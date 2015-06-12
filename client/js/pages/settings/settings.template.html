@@ -1,0 +1,7 @@
+<h2>Hi, {{user.displayName}}</h2>
+
+<h3>Linked Accounts</h3>
+
+<ul>
+  <li ng-repeat="authorization in user.authorizations">{{authorization.name}}</li>
+</ul>

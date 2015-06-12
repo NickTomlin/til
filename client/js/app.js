@@ -20,7 +20,7 @@ tilApp.service('UserStore', require('./stores/user-store'));
 tilApp.service('AuthenticationStore', require('./stores/authentication-store'));
 
 tilApp.controller('HomeController', require('./pages/home'));
-tilApp.controller('UserController', require('./pages/user'));
+tilApp.controller('SettingsController', require('./pages/settings'));
 
 tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   $urlRouterProvider.otherwise('');
@@ -37,9 +37,10 @@ tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeController',
       templateUrl: 'templates/pages/home/home.template.html'
     })
-    .state('userProfile', {
-      url: '/:username',
-      controller: 'UserController'
+    .state('settings', {
+      url: '/settings',
+      controller: 'SettingsController',
+      templateUrl: 'templates/pages/settings/settings.template.html'
     });
 });
 
