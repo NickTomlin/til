@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test": "npm run lint && npm run test:client && npm run test:server && npm run test:integration",
     "test:client": "./node_modules/karma/bin/karma start karma.conf.js --single-run=true",
+    "test:client:watch": "./node_modules/karma/bin/karma start karma.conf.js",
     "test:server": "mocha",
     "test:integration": "webdriver-manager update && npm run db:seed && protractor protractor.conf.js"
   },
