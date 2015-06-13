@@ -2,7 +2,7 @@
 
 var path = require('path');
 var ENV = (process.env.NODE_ENV || 'development').toLowerCase();
-console.log('Loading configuration for', ENV);
+console.log('Loading configuration for', ENV); // eslint-disable-line no-console
 
 var nconf = require('nconf');
 

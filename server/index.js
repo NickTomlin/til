@@ -11,7 +11,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session); // include AFTER session
 var auth = require('./lib/auth');
 
-console.log('Connecting to', config.get('db'));
+console.log('Connecting to', config.get('db')); // eslint-disable-line no-console
 mongoose.connect(config.get('db'));
 
 app.set('views', __dirname + '/views');
@@ -37,7 +37,6 @@ app.use('/', require('./routes/auth')); // auth internally prefixes with /auth
 app.use(require('./routes'));
 
 app.use(function (err, req, res, next) {
-  console.log('Express Error', err);
   logger.error(err);
   next(err);
 });
