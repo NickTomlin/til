@@ -19,6 +19,11 @@ var comment = new mongoose.Schema({
   }
 });
 
+// we register here for our factories only. We won't have fully hydrated comment
+// models out in the wild
+// not sure how I feel about this ¯\_(ツ)_/¯
+mongoose.model('comment', comment);
+
 module.exports = mongoose.model('til', mongoose.Schema({
   text: {
     type: String,

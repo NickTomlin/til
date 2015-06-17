@@ -2,38 +2,11 @@
 'use strict';
 
 var rsvp = require('rsvp');
+var monky = require('../test/server/support/factories');
 var mongoose = require('mongoose');
 var config = require('../server/lib/config');
 var models = require('../server/models');
 var DB = config.get('db');
-
-var data = {
-  user: [
-    {username: 'martymcfly', displayName: 'Marty McFly', email: 'marty@mcfly.com', authorizations: [{name: 'basic', uuid: 'marty@mcfly.com'}]},
-    {username: 'docbrown', displayName: 'Doc Brown', email: 'doc@brown.com'}
-  ],
-  til: [
-    {
-      text: 'you can toggle between #vim splits by using ctrl + w + | and ctrl + w + =',
-      comments: []
-    },
-    {
-      text: '#angular\'s ng-repeat track-by attribute is a wonderful way to achieve performant DOM updates',
-      comments: []
-    },
-    {
-      text: '#mongoose has native es6 support built into version 3.9.X',
-      comments: [
-        {
-          text: 'hey this is a great comment'
-        },
-        {
-          text: 'I disagree'
-        }
-      ]
-    }
-  ]
-};
 
 function connect () {
   return new rsvp.Promise(function (resolve) {
@@ -62,41 +35,39 @@ function close () {
   }
 }
 
-function populateModel (modelName) {
-  // we should totally just remove the model here
-  // but mongoose does not seem to like us doing that
-  var model = models[modelName];
-  return rsvp.all(data[modelName].map(function (modelData) {
-    return new model(modelData).save();
-  }));
-}
-
 function populate () {
   return connect()
   .then(function () {
     return models.user.remove({})
     .then(function () {
       return models.til.remove({});
-    })
-    .then(function () {
-      return populateModel('user')
-        .then(function (users) {
-          var userOne = users[0];
-          var userTwo = users[1];
-
-          function assignUser (user, til) {
-            til.user = user._id;
-            til.comments.forEach(function (comment) {
-              comment.userId = user._id;
-            });
-          }
-
-          assignUser(userOne, data.til[0]);
-          data.til.slice(1).forEach(assignUser.bind(null, userTwo));
-
-          return populateModel('til');
-        });
     });
+  })
+  .then(function createUsers() {
+    console.log('Creating users');
+    return rsvp.all([
+      monky.create('user:marty'),
+      monky.create('user:docbrown'),
+    ]);
+  })
+  .then(function createTils (users) {
+    var marty = users[0];
+    var doc = users[1];
+
+    return rsvp.all([
+      monky.createList('comment', 3, {userId: users[0]._id}),
+      monky.createList('comment', 3, {userId: users[1]._id}),
+    ])
+      .then(function (comments) {
+        var martyComments = comments[0];
+        var docComments = comments[1];
+
+        return rsvp.all([
+          monky.createList('til', 5),
+          monky.createList('til', 2, {user: marty._id , comments: docComments}),
+          monky.createList('til', 2, {user: doc._id , comments: martyComments})
+        ]);
+      });
   })
   .catch(function (err) {
     console.log('seed err', err);

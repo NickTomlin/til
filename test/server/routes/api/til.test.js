@@ -1,6 +1,7 @@
 'use strict';
 
 var models = require('../../../../server/models');
+var monky = require('../../support/factories');
 
 describe('Tils', function () {
   beforeEach(function (done) {
@@ -87,20 +88,22 @@ describe('Tils', function () {
   });
 
   it('includes comments in til results', function (done) {
-    models.til
-    .findOne({'comments.1': {$exists: true}})
-    .exec(function (err, til) {
-      request
-        .get('/api/til')
-        .expect(200, function (respError, res) {
-          if (err) { done(err); }
-          var comments = res.body.til.filter(function (t) {
-            return t._id == til._id; // eslint-disable-line eqeqeq
-          })[0].comments;
+    monky.buildList('comment', 3, function (createErr, createdComments) {
+      monky.create('til', {
+        comments: createdComments
+      }).then(function (til) {
+        request
+          .get('/api/til')
+          .expect(200, function (err, res) {
+            if (err) { done(err); }
+            var comments = res.body.til.filter(function (t) {
+              return t._id == til._id; // eslint-disable-line eqeqeq
+            })[0].comments;
 
-          expect(comments.length).to.be.above(1);
-          done();
-        });
+            expect(comments.length).to.be.above(1);
+            done();
+          });
+      });
     });
   });
 
