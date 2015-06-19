@@ -38,6 +38,7 @@
     "morgan": "^1.5.2",
     "nconf": "^0.7.1",
     "nconf-yaml": "^1.0.0",
+    "ng-easy-inject": "^0.2.0",
     "node-uuid": "^1.4.3",
     "object-assign": "^2.0.0",
     "passport": "^0.2.1",

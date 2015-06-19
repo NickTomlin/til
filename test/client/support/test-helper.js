@@ -6,6 +6,7 @@ require('angular');
 require('angular-mocks');
 require('til/app');
 var dispatcher = require('til/dispatcher');
+global.easyInject = require('ng-easy-inject');
 
 global.helpers = {
   type: function (elem, value) {

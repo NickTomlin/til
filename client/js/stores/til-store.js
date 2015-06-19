@@ -44,6 +44,16 @@ module.exports = function (UserStore, TilService, uuid) {
     return til;
   }
 
+  function updateUserComments (userId) {
+    _.each(_items, function (til) {
+      _.each(til.comments, function (comment) {
+        if (comment.userId === userId) {
+          comment.user = UserStore.get(userId);
+        }
+      });
+    });
+  }
+
   function addTilOnClient(til) {
     til.clientId = uuid();
     prepareTil(til);
@@ -112,6 +122,13 @@ module.exports = function (UserStore, TilService, uuid) {
           log(events.RECEIVE_TILS, payload);
           this.waitFor(UserStore.dispatchToken);
           payload.til.forEach(receiveTilFromServer);
+          this.emitChange();
+        break;
+
+        case events.RECEIVE_USER:
+          log(events.RECEIVE_USER, payload);
+          this.waitFor(UserStore.dispatchToken);
+          updateUserComments(payload.user._id);
           this.emitChange();
         break;
 

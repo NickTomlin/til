@@ -5,14 +5,6 @@ var log = require('../lib/log')('actions:server');
 var events = require('../constants').events;
 
 module.exports = function () {
-  this.addUser = function (user) {
-    log(events.ADD_USER, user);
-    dispatcher.dispatch({
-      type: events.ADD_USER,
-      user: user
-    });
-  };
-
   this.addTilSuccess = function (body) {
     log(events.ADD_TIL_SUCCESS, body);
     dispatcher.dispatch({

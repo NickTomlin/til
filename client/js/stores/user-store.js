@@ -5,7 +5,7 @@ var events = require('../constants').events;
 var _ = require('lodash');
 var log = require('../lib/log')('stores:user-store');
 
-module.exports = function () {
+module.exports = function (UserService) {
   var _users = {};
 
   function add (userObj) {
@@ -15,6 +15,10 @@ module.exports = function () {
 
   return store({
     get: function (_id) {
+      if (!_users[_id]) {
+        UserService.get(_id);
+      }
+
       return _users[_id] || {};
     },
     getByUsername: function (username) {
@@ -34,7 +38,7 @@ module.exports = function () {
         break;
 
         case events.AUTHORIZE_SUCCESS:
-        case events.ADD_USER:
+        case events.RECEIVE_USER:
           log('Add/Authorize', payload);
           add(payload.user);
           this.emitChange();

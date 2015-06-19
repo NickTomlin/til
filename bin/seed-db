@@ -48,24 +48,31 @@ function populate () {
     return rsvp.all([
       monky.create('user:marty'),
       monky.create('user:docbrown'),
+      monky.create('user')
     ]);
   })
   .then(function createTils (users) {
     var marty = users[0];
     var doc = users[1];
+    var rando = users[2];
 
     return rsvp.all([
       monky.createList('comment', 3, {userId: users[0]._id}),
       monky.createList('comment', 3, {userId: users[1]._id}),
+      monky.createList('comment', 3, {userId: users[2]._id}),
     ])
       .then(function (comments) {
         var martyComments = comments[0];
         var docComments = comments[1];
+        var randoComments = comments[2];
 
         return rsvp.all([
           monky.createList('til', 5),
           monky.createList('til', 2, {user: marty._id , comments: docComments}),
-          monky.createList('til', 2, {user: doc._id , comments: martyComments})
+          monky.createList('til', 2, {
+            user: doc._id,
+            comments: martyComments.concat(randoComments)
+          })
         ]);
       });
   })

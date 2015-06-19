@@ -4,6 +4,7 @@ globals:
   beforeEach: false
   afterEach: false
   inject: false
+  easyInject: false
   sandbox: false
   helpers: false
   it: false
