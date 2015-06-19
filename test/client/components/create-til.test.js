@@ -1,12 +1,11 @@
 'use strict';
 
 describe('CreateTilDirective', function () {
-  beforeEach(inject(function ($compile, $rootScope, clientActionCreators) {
-    this.$scope = $rootScope;
+  beforeEach(easyInject('$compile $rootScope clientActionCreators'));
+  beforeEach(function () {
     this.elem = angular.element('<create-til></create-til>');
-    this.clientActionCreators = clientActionCreators;
-    sandbox.stub(clientActionCreators, 'addTIL');
-    $compile(this.elem)(this.$scope);
+    sandbox.stub(this.clientActionCreators, 'addTIL');
+    this.$compile(this.elem)(this.$rootScope);
 
     this.input = this.elem.find('input');
 
@@ -14,7 +13,7 @@ describe('CreateTilDirective', function () {
       helpers.type(this.input, text || '');
       helpers.keyup(this.input, 13);
     }.bind(this);
-  }));
+  });
 
   it('calls the submitTil action when enter is pressed', function () {
     var text = 'a great til';

@@ -3,8 +3,7 @@
 var events = require('til/constants').events;
 
 describe('Authentication Store', function () {
-  beforeEach(inject(function (_AuthenticationStore_) {
-    this.AuthenticationStore = _AuthenticationStore_;
+  beforeEach(easyInject('AuthenticationStore', function () {
     this.addAuthenticationPayload = {user: {_id: 'my-id'}};
   }));
 

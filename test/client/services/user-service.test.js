@@ -1,12 +1,7 @@
 'use strict';
 
 describe('User Service', function () {
-  beforeEach(inject(function ($rootScope, UserStore, UserService, $httpBackend, serverActionCreators) {
-    this.$rootScope = $rootScope;
-    this.UserService = UserService;
-    this.$httpBackend = $httpBackend;
-    this.serverActionCreators = serverActionCreators;
-  }));
+  beforeEach(easyInject('$rootScope UserStore UserService $httpBackend serverActionCreators'));
 
   afterEach(function () {
     this.$httpBackend.verifyNoOutstandingExpectation();
