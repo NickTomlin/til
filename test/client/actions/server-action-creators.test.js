@@ -4,10 +4,9 @@ var dispatcher = require('til/dispatcher');
 var events = require('til/constants').events;
 
 describe('serverActionCreators', function () {
-  beforeEach(easyInject('$rootScope serverActionCreators'));
-  beforeEach(function () {
+  beforeEach(easyInject('$rootScope serverActionCreators', function () {
     sandbox.spy(dispatcher, 'dispatch');
-  });
+  }));
 
   describe('receiveTILS', function () {
     beforeEach(function () {

@@ -1,12 +1,10 @@
 'use strict';
 
 describe('User Service', function () {
-  beforeEach(easyInject('$rootScope UserStore UserService $httpBackend serverActionCreators'));
-
-  afterEach(function () {
+  beforeEach(easyInject('$rootScope UserStore UserService $httpBackend serverActionCreators', function () {
     this.$httpBackend.verifyNoOutstandingExpectation();
     this.$httpBackend.verifyNoOutstandingRequest();
-  });
+  }));
 
   describe('get()', function () {
     it('triggers an receiveUser action on success', function () {

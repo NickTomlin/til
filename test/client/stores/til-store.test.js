@@ -4,8 +4,7 @@ var events = require('til/constants').events;
 var _ = require('lodash');
 
 describe('Til Store', function () {
-  beforeEach(easyInject('TilStore TilService UserStore'));
-  beforeEach(function () {
+  beforeEach(easyInject('TilStore TilService UserStore', function () {
     this.users = {
       'my-user-id': {
         displayName: 'my-user',
@@ -37,7 +36,7 @@ describe('Til Store', function () {
 
       this.TilStore.handler(tilProps.type, tilProps);
     };
-  });
+  }));
 
   describe('getTilsForUser()', function () {
     it('returns the tils for a user', function () {

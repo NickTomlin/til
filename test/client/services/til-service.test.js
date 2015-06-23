@@ -1,14 +1,12 @@
 'use strict';
 
 describe('Til Service', function () {
-  beforeEach(easyInject('$rootScope TilStore TilService $httpBackend serverActionCreators'));
-
-  beforeEach(function () {
+  beforeEach(easyInject('$rootScope TilStore TilService $httpBackend serverActionCreators', function () {
     sandbox.stub(this.serverActionCreators, 'addTilSuccess');
     this.til = {
       text: 'test'
     };
-  });
+  }));
 
   afterEach(function () {
     this.$httpBackend.verifyNoOutstandingExpectation();
