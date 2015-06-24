@@ -12,4 +12,8 @@ describe('Settings Page', function () {
   it('displays authorizations for a user', function () {
     expect(element.all(by.repeater('authorization in user.authorizations')).count()).toEqual(1);
   });
+
+  it('displays a user\'s api auth key', function () {
+    expect($('#accessToken').isPresent()).toBeTruthy();
+  });
 });

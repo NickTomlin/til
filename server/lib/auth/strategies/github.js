@@ -26,7 +26,19 @@ function githubAuthHandler(accessToken, refreshToken, profile, done) {
     },
     function (err, result) {
       logger.info('Github Auth %j : %j', err, result, {});
-      done(err, result);
+
+      // findOneAndUpdate bypasses
+      // mongoose's internal middleware
+      // so we need to do our accessToken default here
+      if (!result.accessToken) {
+        result.assignNewAccessToken()
+        .save()
+        .then(function (updatedUser) {
+          done(err, updatedUser);
+        });
+      } else {
+        done(err, result);
+      }
     });
 }
 

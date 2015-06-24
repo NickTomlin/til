@@ -17,9 +17,12 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  logger.info('deserializeUser', id);
-  User.findById(id, function (err, user) {
-    logger.info('deserializeUser::find', err, user, {});
+  User.findById(id, function (err, userDocument) {
+    logger.info('deserializeUser::find', err, userDocument, {});
+    if (err || !userDocument) { return done(err); }
+    var user = userDocument.toObject();
+    user.accessToken = userDocument.getAccessToken();
+
     done(err, user);
   });
 });

@@ -13,4 +13,21 @@ router.get('/:id', function (req, res, next) {
     });
 });
 
+router.post('/:id/reset-access-token', function (req, res, next) {
+  User
+    .findOne({_id: req.params.id})
+    .then(function (user) {
+      return user
+        .assignNewAccessToken()
+        .save()
+          .then(function (savedUser) {
+            res.status(201);
+            res.json({
+              accessToken: savedUser.accessToken
+            });
+          });
+    })
+    .catch(next);
+});
+
 module.exports = router;

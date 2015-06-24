@@ -22,4 +22,16 @@ describe('authorize', function () {
         });
     });
   });
+
+  it('returns a user object with an accessToken property', function (done) {
+    helpers.login(function (loginErr) {
+      if (loginErr) { return done(loginErr); }
+      agent.get('/api/authorize')
+        .expect(200)
+        .end(function (err, res) {
+          expect(res.body.user).to.have.property('accessToken');
+          done();
+        });
+    });
+  });
 });
