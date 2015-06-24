@@ -12,6 +12,7 @@ globals:
   helpers: false
   agent: false
   expect: false
+  api: false
   sinon: false
 
 rules:

@@ -9,7 +9,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('*', protect(), function (req, res) {
-  res.render('index', {title: 'What have you learned today?'});
+  res.render('index', {title: 'What have you learned today?', accessToken: req.user.accessToken});
 });
 
 

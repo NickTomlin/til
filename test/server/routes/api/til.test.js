@@ -3,7 +3,7 @@
 var models = require('../../../../server/models');
 var monky = require('../../support/factories');
 
-describe('Tils', function () {
+describe('/api/til', function () {
   beforeEach(function (done) {
     this.validTil = {
       text: '#supertest is a great way to test api endpoints in #express'
@@ -18,7 +18,7 @@ describe('Tils', function () {
   it('includes clientId in response if one exists', function (done) {
     this.validTil.clientId = 'myClientId';
 
-    request
+    api
       .post('/api/til')
       .send(this.validTil)
       .expect(201)
@@ -33,7 +33,7 @@ describe('Tils', function () {
   it('does not persist clientId to DB', function (done) {
     this.validTil.clientId = 'myClientId';
 
-    request
+    api
       .post('/api/til')
       .send(this.validTil)
       .expect(201)
@@ -53,7 +53,7 @@ describe('Tils', function () {
     models.til
       .findOne({})
       .exec(function (err, til) {
-        request
+        api
         .put('/api/til/comments')
         .send({
           tilId: til._id,
@@ -70,7 +70,7 @@ describe('Tils', function () {
   });
 
   it('includes til users on top level of response', function (done) {
-    request
+    api
       .get('/api/til')
       .expect(200, function (respError, res) {
         expect(res.body.user[0]).to.have.property('displayName');
@@ -79,7 +79,7 @@ describe('Tils', function () {
   });
 
   it('includes a userId on til', function (done) {
-    request
+    api
       .get('/api/til')
       .expect(200, function (respError, res) {
         expect(res.body.til[0]).to.have.property('userId');
@@ -92,7 +92,7 @@ describe('Tils', function () {
       monky.create('til', {
         comments: createdComments
       }).then(function (til) {
-        request
+        api
           .get('/api/til')
           .expect(200, function (err, res) {
             if (err) { done(err); }
@@ -116,7 +116,7 @@ describe('Tils', function () {
     });
 
     it('does not allow creation of invalid models', function (done) {
-      request
+      api
       .post('/api/til')
       .send(this.invalidTil)
       .expect(400, function (err, res) {
@@ -129,7 +129,7 @@ describe('Tils', function () {
 
     it('purposefully rejects tils with a text value of fail', function (done) {
       this.validTil.text = 'fail';
-      request
+      api
         .post('/api/til')
         .send(this.validTil)
         .expect(400, function (err, res) {

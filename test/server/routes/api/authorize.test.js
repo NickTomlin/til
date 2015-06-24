@@ -2,7 +2,7 @@
 
 describe('authorize', function () {
   it('returns a 401 and a false authorize status if user is not authorized', function (done) {
-    agent.get('/api/authorize')
+    request.get('/api/authorize')
       .expect(401)
       .end(function (err, res) {
         expect(res.body.authorized).to.equal.false;
@@ -12,26 +12,21 @@ describe('authorize', function () {
   });
 
   it('returns a user object', function (done) {
-    helpers.login(function (loginErr) {
-      if (loginErr) { return done(loginErr); }
-      agent.get('/api/authorize')
-        .expect(200)
-        .end(function (err, res) {
-          expect(res.body).to.have.property('user');
-          done();
-        });
-    });
+    api.get('/api/authorize')
+      .expect(200)
+      .end(function (err, res) {
+        expect(res.body).to.have.property('user');
+        done();
+      });
   });
 
   it('returns a user object with an accessToken property', function (done) {
-    helpers.login(function (loginErr) {
-      if (loginErr) { return done(loginErr); }
-      agent.get('/api/authorize')
-        .expect(200)
-        .end(function (err, res) {
-          expect(res.body.user).to.have.property('accessToken');
-          done();
-        });
-    });
+    api.get('/api/authorize')
+      .expect(200)
+      .end(function (err, res) {
+        if (err) { return done(err); }
+        expect(res.body.user).to.have.property('accessToken');
+        done();
+      });
   });
 });

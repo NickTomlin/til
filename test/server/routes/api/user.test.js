@@ -16,7 +16,7 @@ describe('Users', function () {
 
   describe('GET /user', function () {
     beforeEach(function (done) {
-      request
+      api
       .get(this.baseRoute)
       .expect(200)
       .end(function (err, res) {
@@ -35,7 +35,7 @@ describe('Users', function () {
     it('resets the user\'s api token', function (done) {
       var oldToken = this.user.accessToken;
 
-      request
+      api
       .post(this.baseRoute + '/reset-access-token')
       .expect(201)
       .end(function (err, response) {

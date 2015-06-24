@@ -3,6 +3,7 @@ env:
 
 globals:
   global: false
+  document: false
   angular: false
   before: false
   after: false

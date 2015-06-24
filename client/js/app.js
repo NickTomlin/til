@@ -58,7 +58,12 @@ tilApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 //
 // this means injecting them but not actually using them :|
 // </BEWARE>
-tilApp.run(function (TilService, AuthenticationStore, UserStore, UserService) {
+tilApp.run(function (TilService, AuthenticationStore, UserStore, UserService, $http) {
+  var token = document.querySelector('meta[name="accessToken"]');
+  if (token) {
+    $http.defaults.headers.common.Authorization = 'Bearer ' + token.content;
+  }
+
   // this is kinda BS, and should be done in a controller
   // when we ui-view all the things
   if (!global.test) {
