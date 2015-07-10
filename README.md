@@ -1,6 +1,9 @@
 TIL
-
 ---
+
+Learn things with your friends.
+
+Note: This is an extremely rough demo application built for a presentation. See the TODO section for missing/broken features.
 
 # Getting Started
 
@@ -52,3 +55,12 @@ npm run test:server
 # integration tests
 npm run test:integration
 ```
+
+
+# TODO
+
+- Support more authentication methods (not just Github)
+- Better pagination on client/server
+- API versioning
+- Rework UI
+- Add tags (e.g. `#vim`) to TILs
