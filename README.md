@@ -3,9 +3,16 @@ TIL
 
 Learn things with your friends.
 
-Note: This is an extremely rough demo application built for a presentation. See the TODO section for missing/broken features.
+Note: This application is in an extremely rough state; things probably won't work out for you, sorry :|. See the TODO section for missing/broken features. Good luck.
 
 # Getting Started
+
+To authenticate your application with github you'll need create an [application](https://developer.github.com/guides/basics-of-authentication/#registering-your-app) and add the `client_id` and `client_secret` to `config/development.yaml` (and `production.yaml`) if you intend to deploy.
+
+```
+github-id: your-client-id
+github-secret: your-client-secret
+```
 
 ## Using a local machine
 
